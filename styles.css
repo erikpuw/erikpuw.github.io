@@ -93,11 +93,14 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-jarvis { grid-column: span 13; background: #151c24; color: #f5f6f8; border-color: #36404c; }
 .project-notch { grid-column: span 11; }
 .project-player, .project-toolkit { grid-column: span 12; }
-.project-puwdesk { grid-column: span 24; }
-.project-puwdesk .project-art { left: 38%; mask-image: linear-gradient(to right, transparent, #000 18%); }
-.project-puwdesk .artwork { object-fit: cover; object-position: 65% center; }
-.project-puwdesk .project-copy p { max-width: 35%; }
-.dialog-art > img[src$="detail-puwdesk.webp"] { object-position: 65% center; }
+.project-puwdesk { grid-column: span 24; min-height: clamp(260px, 28vw, 340px); }
+.project-puwdesk .project-art { inset: 0 1.25rem 0 42%; }
+.project-puwdesk .artwork { object-fit: contain; }
+.project-puwdesk .project-copy { padding: 2rem; }
+.project-puwdesk .project-copy h3 { font-size: clamp(2rem, 3.4vw, 3rem); }
+.project-puwdesk .project-copy p { max-width: 40%; }
+.dialog-art:has(> img[src$="detail-puwdesk.webp"]) { background: var(--surface); }
+.dialog-art > img[src$="detail-puwdesk.webp"] { object-fit: contain; padding: 1rem; }
 .project-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; min-height: inherit; padding: 1.65rem; }
 .project-mark { width: 1.8rem; height: 1.8rem; margin-bottom: .6rem; }
 .project-mark.icon-notch { width: 2rem; height: 1.25rem; border: 2px solid currentColor; border-radius: 999px; mask: none; -webkit-mask: none; background: none; position: relative; margin-top: .3rem; margin-bottom: .85rem; }
@@ -187,7 +190,12 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .project-copy h3 { font-size: 1.65rem; }
   .project-copy p { max-width: 52%; font-size: .9rem; }
   .project-jarvis .project-copy p { max-width: 52%; }
-  .project-puwdesk .project-copy p { max-width: 52%; }
+  .project-puwdesk { display: flex; flex-direction: column-reverse; min-height: 0; }
+  .project-puwdesk .project-copy { min-height: 0; padding: 1.5rem 4.75rem .5rem 1.5rem; }
+  .project-puwdesk .project-copy h3 { font-size: 1.85rem; }
+  .project-puwdesk .project-copy p { max-width: none; margin-bottom: 0; }
+  .project-puwdesk .card-arrow { position: absolute; top: 1.5rem; right: 1.25rem; margin: 0; }
+  .project-puwdesk .project-art { position: relative; inset: auto; height: 190px; margin: 0 .75rem .75rem; }
   .project-mark { width: 1.6rem; height: 1.6rem; }
   .project-dialog { width: calc(100% - 1.5rem); max-height: calc(100dvh - 1.5rem); }
   .project-dialog[open] { grid-template-columns: minmax(0, 1fr); align-content: start; }

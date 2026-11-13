@@ -2,6 +2,7 @@
 
 ## 2026-11-14
 
+- Dựng thẻ puwdesk theo mẫu đã duyệt: màn hình bạc với đảo nổi bên trong, hai lớp hình nền phía sau và nền trong suốt. Bỏ fade chia đôi, giữ chữ và nút thật, bố trí riêng cho mobile.
 - Thêm puwdesk với hình vườn nổi, thông tin dự án và trạng thái chuẩn bị phát hành. Tự kiểm tra GitHub Releases để bật nút tải theo bản ổn định mới nhất, không cố định phiên bản.
 - Nút tải luôn có sẵn, mờ và không bấm được khi đang kiểm tra; có kết quả thì bật liên kết phù hợp. Giữ chỗ cho trạng thái và hàng nút để khung không nhảy; ảnh phủ kín khung mà vẫn giữ tỷ lệ.
 - Khôi phục bảng chi tiết gọn ở giữa, có khoảng trống quanh khung trên mobile. Chỉ dịch dọc 10px khi mở 180ms và đóng 140ms, không trượt cả màn hình, zoom hay fade nội dung. Chế độ giảm chuyển động mở và đóng trực tiếp.
