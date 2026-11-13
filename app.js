@@ -10,10 +10,10 @@
   const easeOut = motionTokens.getPropertyValue('--ease-out').trim();
   const dialogDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-dialog'));
   const reveals = new Map();
+  const artworkCache = new Map();
   let revealObserver = null;
   let dialogAnimation = null;
   let activeCard = null;
-  let transition = null;
   let downloadRequest = 0;
 
   function syncTheme() {
@@ -31,6 +31,46 @@
     root.dataset.theme = dark ? 'light' : 'dark';
     try { localStorage.setItem('erikpuw-theme', root.dataset.theme); } catch { /* Theme changes still work without storage. */ }
     syncTheme();
+  });
+  function getProjectArtwork(card, priority) {
+    const id = card.dataset.project;
+    const cached = artworkCache.get(id);
+    if (cached) {
+      if (priority === 'high') cached.fetchPriority = 'high';
+      return cached;
+    }
+    const art = document.createElement('img');
+    art.alt = '';
+    art.width = 800;
+    art.height = 1000;
+    art.decoding = 'async';
+    art.fetchPriority = priority;
+    art.src = `assets/detail-${id}.webp`;
+    artworkCache.set(id, art);
+    if (typeof art.decode === 'function') {
+      art.decode().catch(() => {
+        if (artworkCache.get(id) === art) artworkCache.delete(id);
+      });
+    }
+    return art;
+  }
+  if (typeof IntersectionObserver === 'function') {
+    const imageObserver = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        getProjectArtwork(entry.target, 'low');
+        imageObserver.unobserve(entry.target);
+      }
+    }, { rootMargin: '240px 0px' });
+    projectCards.forEach(card => imageObserver.observe(card));
+  }
+  projectCards.forEach(card => {
+    for (const type of ['pointerenter', 'pointerdown', 'focusin']) {
+      card.addEventListener(type, () => {
+        reveals.get(card)?.finish();
+        getProjectArtwork(card, 'high');
+      });
+    }
   });
   if (!reducedMotion.matches && typeof IntersectionObserver === 'function' && projectCards.every(card => typeof card.animate === 'function')) {
     const pending = new Set(projectCards);
@@ -55,57 +95,34 @@
     }, { threshold: .15 });
     projectCards.forEach(card => {
       revealObserver.observe(card);
-      card.addEventListener('pointerenter', () => reveals.get(card)?.finish());
-      card.addEventListener('pointerdown', () => reveals.get(card)?.finish());
-      card.addEventListener('focusin', () => reveals.get(card)?.finish());
     });
   }
   reducedMotion.addEventListener('change', () => {
     if (!reducedMotion.matches) return;
     revealObserver?.disconnect();
     reveals.forEach(animation => animation.finish());
-    transition?.skipTransition();
     dialogAnimation?.finish();
   });
   // Keep ordinary repository links working on browsers without native dialogs.
   if (typeof dialog.showModal !== 'function') return;
 
-  function morph(update, direction, keyboard = false) {
-    transition?.skipTransition();
-    transition = null;
-    const presentation = dialog.open ? getComputedStyle(dialog) : null;
-    const visible = presentation && { opacity: presentation.opacity, transform: presentation.transform };
+  // Keep transitions local to the dialog, without full-page snapshots or image scaling.
+  function fadeDialog(update, direction, keyboard = false) {
+    const opacity = dialog.open ? getComputedStyle(dialog).opacity : '0';
     dialogAnimation?.cancel();
     dialogAnimation = null;
     if (direction === 'close') dialog.dataset.closing = 'true';
     else delete dialog.dataset.closing;
-    if (keyboard) {
+    if (keyboard || typeof dialog.animate !== 'function') {
       dialog.dataset.motion = 'instant';
       update();
       return Promise.resolve();
     }
-    if (!reducedMotion.matches && document.startViewTransition) {
-      dialog.dataset.motion = 'native';
-      const current = document.startViewTransition(update);
-      transition = current;
-      return current.finished.catch(() => {}).finally(() => {
-        if (transition === current) transition = null;
-      });
-    }
-    if (typeof dialog.animate !== 'function') {
-      dialog.dataset.motion = 'instant';
-      update();
-      return Promise.resolve();
-    }
-    const reduced = reducedMotion.matches;
-    dialog.dataset.motion = reduced ? 'reduced' : 'fallback';
+    dialog.dataset.motion = 'fade';
     const entering = direction === 'open';
-    const edge = reduced ? { opacity: 0 } : { opacity: 0, transform: 'scale(0.96)' };
-    const rest = reduced ? { opacity: 1 } : { opacity: 1, transform: 'scale(1)' };
     if (entering) update();
-    const from = entering ? edge : reduced ? { opacity: visible.opacity } : visible;
-    const animation = dialog.animate([from, entering ? rest : edge], {
-      duration: reduced ? 200 : dialogDuration, easing: easeOut, fill: 'both',
+    const animation = dialog.animate([{ opacity: entering ? 0 : opacity }, { opacity: entering ? 1 : 0 }], {
+      duration: dialogDuration, easing: easeOut, fill: 'both',
     });
     dialogAnimation = animation;
     return animation.finished.catch(() => {}).then(() => {
@@ -149,36 +166,26 @@
     document.querySelector('#dialog-description').textContent = card.querySelector('p').textContent;
     document.querySelector('#dialog-category').textContent = card.querySelector('.project-category').textContent;
     document.querySelector('#dialog-repository').href = card.href;
-    const art = document.createElement('img');
-    art.src = `assets/detail-${card.dataset.project}.webp`;
-    art.alt = '';
-    art.width = 800;
-    art.height = 1000;
-    art.decoding = 'async';
+    const art = getProjectArtwork(card, 'high');
     document.querySelector('#dialog-art').replaceChildren(art);
     document.querySelector('#dialog-details').replaceChildren(template.content.cloneNode(true));
     updateDownload(card);
-    card.style.viewTransitionName = 'project-panel';
-    morph(() => {
-      card.style.viewTransitionName = '';
-      dialog.style.viewTransitionName = 'project-panel';
+    fadeDialog(() => {
       dialog.showModal();
       root.classList.add('dialog-open');
     }, 'open', keyboard);
   }
   function closeProject(event) {
     if (!dialog.open || !activeCard) return;
+    const keyboard = event.type === 'cancel' || event.detail === 0;
+    if (dialog.dataset.closing && !keyboard) return;
     const card = activeCard;
-    morph(() => {
-      dialog.style.viewTransitionName = '';
+    fadeDialog(() => {
       dialog.close();
       root.classList.remove('dialog-open');
-      card.style.viewTransitionName = 'project-panel';
       activeCard = null;
       card.focus({ preventScroll: true });
-    }, 'close', event.type === 'cancel' || event.detail === 0).finally(() => {
-      if (activeCard !== card) card.style.viewTransitionName = '';
-    });
+    }, 'close', keyboard);
   }
   projectCards.forEach(card => {
     card.addEventListener('click', event => {

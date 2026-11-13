@@ -1,4 +1,4 @@
-/* Layer order: page, header (10), native dialog, native view transitions. */
+/* Layer order: page, header (10), native dialog. */
 :root {
   color-scheme: light;
   --page: #f1f3f8; --ink: #14171c; --muted: #4e5663;
@@ -7,8 +7,7 @@
   --dialog: #f6f8fc; --shadow: rgb(23 27 34 / 12%);
   --light-art: block; --dark-art: none;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
-  --duration-dialog: 250ms;
+  --duration-dialog: 200ms;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none; font-optical-sizing: auto;
 }
@@ -112,11 +111,10 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-dialog { position: fixed; padding: 0; border: 1px solid var(--line); border-radius: 24px; width: min(900px, calc(100% - 3rem)); max-height: calc(100dvh - 3rem); overflow: auto; color: var(--ink); background: var(--dialog); box-shadow: 0 32px 100px rgb(9 11 14 / 28%); overscroll-behavior: contain; }
 .project-dialog[open] { display: grid; grid-template-columns: .95fr 1.05fr; }
 .project-dialog::backdrop { background: rgb(10 13 17 / 55%); backdrop-filter: blur(8px); }
-.project-dialog[data-motion="fallback"]::backdrop, .project-dialog[data-motion="reduced"]::backdrop { opacity: 1; transition: opacity var(--duration-dialog) var(--ease-out); }
-.project-dialog[data-motion="reduced"]::backdrop { transition-duration: 200ms; }
-.project-dialog[data-motion="fallback"][data-closing]::backdrop, .project-dialog[data-motion="reduced"][data-closing]::backdrop { opacity: 0; }
+.project-dialog[data-motion="fade"]::backdrop { opacity: 1; transition: opacity var(--duration-dialog) var(--ease-out); }
+.project-dialog[data-motion="fade"][data-closing]::backdrop { opacity: 0; }
 @starting-style {
-  .project-dialog[data-motion="fallback"][open]::backdrop, .project-dialog[data-motion="reduced"][open]::backdrop { opacity: 0; }
+  .project-dialog[data-motion="fade"][open]::backdrop { opacity: 0; }
 }
 .dialog-art { position: relative; min-height: 440px; overflow: hidden; background: #15191e; }
 .dialog-art > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
@@ -137,11 +135,6 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .dialog-close:hover { background: transparent; }
 .dialog-close:hover::before { background: var(--surface); }
 .dialog-open { overflow: hidden; }
-::view-transition { pointer-events: none; }
-::view-transition-group(root) { animation: none; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--duration-dialog); animation-timing-function: var(--ease-out); mix-blend-mode: normal; }
-::view-transition-group(project-panel) { animation-duration: var(--duration-dialog); animation-timing-function: var(--ease-in-out); }
-::view-transition-old(project-panel), ::view-transition-new(project-panel) { height: 100%; width: 100%; object-fit: cover; animation-duration: var(--duration-dialog); mix-blend-mode: normal; }
 @media (prefers-reduced-motion: no-preference) {
   .button, .icon-button, .nav-glass a { transition: background-color 160ms ease, transform 160ms var(--ease-out); }
   .button:active:not(:focus-visible), .icon-button:active:not(:focus-visible) { transform: scale(.97); }
