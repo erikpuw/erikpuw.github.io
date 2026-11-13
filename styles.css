@@ -6,6 +6,9 @@
   --surface: #e3e7ef; --glass: rgb(248 250 254 / 74%);
   --dialog: #f6f8fc; --shadow: rgb(23 27 34 / 12%);
   --light-art: block; --dark-art: none;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-dialog: 250ms;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-synthesis: none; font-optical-sizing: auto;
 }
@@ -109,6 +112,12 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-dialog { position: fixed; padding: 0; border: 1px solid var(--line); border-radius: 24px; width: min(900px, calc(100% - 3rem)); max-height: calc(100dvh - 3rem); overflow: auto; color: var(--ink); background: var(--dialog); box-shadow: 0 32px 100px rgb(9 11 14 / 28%); overscroll-behavior: contain; }
 .project-dialog[open] { display: grid; grid-template-columns: .95fr 1.05fr; }
 .project-dialog::backdrop { background: rgb(10 13 17 / 55%); backdrop-filter: blur(8px); }
+.project-dialog[data-motion="fallback"]::backdrop, .project-dialog[data-motion="reduced"]::backdrop { opacity: 1; transition: opacity var(--duration-dialog) var(--ease-out); }
+.project-dialog[data-motion="reduced"]::backdrop { transition-duration: 200ms; }
+.project-dialog[data-motion="fallback"][data-closing]::backdrop, .project-dialog[data-motion="reduced"][data-closing]::backdrop { opacity: 0; }
+@starting-style {
+  .project-dialog[data-motion="fallback"][open]::backdrop, .project-dialog[data-motion="reduced"][open]::backdrop { opacity: 0; }
+}
 .dialog-art { position: relative; min-height: 440px; overflow: hidden; background: #15191e; }
 .dialog-art > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
 .dialog-content { align-self: center; padding: 3rem 2rem 2.25rem; }
@@ -130,20 +139,20 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .dialog-open { overflow: hidden; }
 ::view-transition { pointer-events: none; }
 ::view-transition-group(root) { animation: none; }
-::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-::view-transition-group(project-panel) { animation-duration: 420ms; animation-timing-function: cubic-bezier(.22, 1, .36, 1); }
-::view-transition-old(project-panel), ::view-transition-new(project-panel) { height: 100%; width: 100%; object-fit: cover; animation-duration: 240ms; mix-blend-mode: normal; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: var(--duration-dialog); animation-timing-function: var(--ease-out); mix-blend-mode: normal; }
+::view-transition-group(project-panel) { animation-duration: var(--duration-dialog); animation-timing-function: var(--ease-in-out); }
+::view-transition-old(project-panel), ::view-transition-new(project-panel) { height: 100%; width: 100%; object-fit: cover; animation-duration: var(--duration-dialog); mix-blend-mode: normal; }
 @media (prefers-reduced-motion: no-preference) {
-  .button, .icon-button, .nav-glass a { transition: background-color 160ms ease, transform 160ms ease; }
-  .button:active, .icon-button:active { transform: scale(.97); }
-  .project-card { transition: transform 260ms cubic-bezier(.2, .8, .2, 1), box-shadow 260ms ease; }
-  .card-arrow { transition: transform 220ms ease; }
-  .project-card:active { transform: scale(.985); }
-  .hero-copy { animation: arrive 550ms cubic-bezier(.2, .8, .2, 1) both; }
+  .button, .icon-button, .nav-glass a { transition: background-color 160ms ease, transform 160ms var(--ease-out); }
+  .button:active:not(:focus-visible), .icon-button:active:not(:focus-visible) { transform: scale(.97); }
+  .project-card { transition: transform 250ms var(--ease-out); }
+  .card-arrow { transition: transform 200ms var(--ease-out); }
+  .project-card:active:not(:focus-visible) { transform: scale(.985); }
+  .hero-copy { animation: arrive 500ms var(--ease-out) both; }
   @keyframes arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-  @media (hover: hover) {
-    .project-card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px var(--shadow); }
-    .project-card:hover .card-arrow { transform: translateX(3px); }
+  @media (hover: hover) and (pointer: fine) {
+    .project-card:hover:not(:focus-visible) { transform: translateY(-3px); box-shadow: 0 10px 24px var(--shadow); }
+    .project-card:hover:not(:focus-visible) .card-arrow { transform: translateX(3px); }
   }
 }
 @media (max-width: 1023px) {
