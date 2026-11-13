@@ -2,7 +2,7 @@
 
 ## 2026-11-14
 
-- Chi tiết dự án trượt vào từ bên phải trong 300ms, đóng về cùng phía trong 200ms. Mobile hiển thị toàn màn hình, ảnh và chữ không zoom hay fade. Bàn phím dùng cùng hiệu ứng; chế độ giảm chuyển động mở và đóng trực tiếp.
+- Khôi phục bảng chi tiết gọn ở giữa, có khoảng trống quanh khung trên mobile. Chỉ dịch dọc 10px khi mở 180ms và đóng 140ms, không trượt cả màn hình, zoom hay fade nội dung. Chế độ giảm chuyển động mở và đóng trực tiếp.
 - Nạp và giải mã ảnh chi tiết trước khi thẻ vào màn hình, tái sử dụng ảnh khi mở lại và ưu tiên ảnh đang được chọn.
 - Thẻ dự án fade một lần khi vào màn hình; hover chuyển động chỉ chạy với con trỏ chính xác.
 - Chuyển focus ban đầu của bảng chi tiết về tiêu đề, giữ viền focus cho các nút và liên kết khi dùng bàn phím.

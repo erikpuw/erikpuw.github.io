@@ -112,7 +112,7 @@
   // Keep the detail surface opaque and reverse from its visible position.
   function animateDialog(update, direction) {
     const current = dialog.open ? getComputedStyle(dialog) : null;
-    const from = { transform: current?.transform || 'translateX(100%)' };
+    const from = { transform: current?.transform || 'translateY(10px)' };
     dialogAnimation?.cancel();
     dialogAnimation = null;
     if (direction === 'close') dialog.dataset.closing = 'true';
@@ -125,7 +125,7 @@
     dialog.dataset.motion = 'detail';
     const entering = direction === 'open';
     if (entering) update();
-    const to = { transform: entering ? 'translateX(0%)' : 'translateX(100%)' };
+    const to = { transform: entering ? 'translateY(0px)' : 'translateY(10px)' };
     const animation = dialog.animate([from, to], {
       duration: entering ? detailDuration : dismissDuration,
       easing: entering ? detailEase : dismissEase, fill: 'both',
