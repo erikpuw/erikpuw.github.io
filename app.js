@@ -8,7 +8,10 @@
   const projectCards = Array.from(document.querySelectorAll('.project-card'));
   const motionTokens = getComputedStyle(root);
   const easeOut = motionTokens.getPropertyValue('--ease-out').trim();
-  const dialogDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-dialog'));
+  const sheetDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-sheet'));
+  const dismissDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-dismiss'));
+  const sheetEase = motionTokens.getPropertyValue('--ease-sheet').trim();
+  const dismissEase = motionTokens.getPropertyValue('--ease-dismiss').trim();
   const reveals = new Map();
   const artworkCache = new Map();
   let revealObserver = null;
@@ -106,23 +109,26 @@
   // Keep ordinary repository links working on browsers without native dialogs.
   if (typeof dialog.showModal !== 'function') return;
 
-  // Keep transitions local to the dialog, without full-page snapshots or image scaling.
-  function fadeDialog(update, direction, keyboard = false) {
-    const opacity = dialog.open ? getComputedStyle(dialog).opacity : '0';
+  // Slide the opaque sheet from its edge; interrupt from its current position.
+  function animateDialog(update, direction) {
+    const current = dialog.open ? getComputedStyle(dialog) : null;
+    const from = reducedMotion.matches ? { opacity: current?.opacity || '0' } : { transform: current?.transform || 'translateY(100%)' };
     dialogAnimation?.cancel();
     dialogAnimation = null;
     if (direction === 'close') dialog.dataset.closing = 'true';
     else delete dialog.dataset.closing;
-    if (keyboard || typeof dialog.animate !== 'function') {
+    if (typeof dialog.animate !== 'function') {
       dialog.dataset.motion = 'instant';
       update();
       return Promise.resolve();
     }
-    dialog.dataset.motion = 'fade';
+    dialog.dataset.motion = 'sheet';
     const entering = direction === 'open';
     if (entering) update();
-    const animation = dialog.animate([{ opacity: entering ? 0 : opacity }, { opacity: entering ? 1 : 0 }], {
-      duration: dialogDuration, easing: easeOut, fill: 'both',
+    const to = reducedMotion.matches ? { opacity: entering ? 1 : 0 } : { transform: entering ? 'translateY(0%)' : 'translateY(100%)' };
+    const animation = dialog.animate([from, to], {
+      duration: entering && !reducedMotion.matches ? sheetDuration : dismissDuration,
+      easing: entering ? sheetEase : dismissEase, fill: 'both',
     });
     dialogAnimation = animation;
     return animation.finished.catch(() => {}).then(() => {
@@ -158,7 +164,7 @@
     }
     download.hidden = false;
   }
-  function openProject(card, keyboard) {
+  function openProject(card) {
     const template = document.querySelector(`#${card.dataset.project}-details`);
     if (activeCard || !template) return;
     activeCard = card;
@@ -170,35 +176,34 @@
     document.querySelector('#dialog-art').replaceChildren(art);
     document.querySelector('#dialog-details').replaceChildren(template.content.cloneNode(true));
     updateDownload(card);
-    fadeDialog(() => {
+    animateDialog(() => {
       dialog.showModal();
       root.classList.add('dialog-open');
-    }, 'open', keyboard);
+    }, 'open');
   }
-  function closeProject(event) {
+  function closeProject() {
     if (!dialog.open || !activeCard) return;
-    const keyboard = event.type === 'cancel' || event.detail === 0;
-    if (dialog.dataset.closing && !keyboard) return;
+    if (dialog.dataset.closing) return;
     const card = activeCard;
-    fadeDialog(() => {
+    animateDialog(() => {
       dialog.close();
       root.classList.remove('dialog-open');
       activeCard = null;
       card.focus({ preventScroll: true });
-    }, 'close', keyboard);
+    }, 'close');
   }
   projectCards.forEach(card => {
     card.addEventListener('click', event => {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      openProject(card, event.detail === 0);
+      openProject(card);
     });
     card.setAttribute('aria-haspopup', 'dialog');
   });
   closeButton.addEventListener('click', closeProject);
   dialog.addEventListener('cancel', event => {
     event.preventDefault();
-    closeProject(event);
+    closeProject();
   });
   let pointerStartedOnBackdrop = false;
   dialog.addEventListener('pointerdown', event => {
@@ -207,7 +212,7 @@
       (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom);
   });
   dialog.addEventListener('click', event => {
-    if (event.target === dialog && pointerStartedOnBackdrop) closeProject(event);
+    if (event.target === dialog && pointerStartedOnBackdrop) closeProject();
     pointerStartedOnBackdrop = false;
   });
 })();

@@ -2,9 +2,9 @@
 
 ## 2026-11-14
 
-- Bỏ morph toàn trang và phóng/thu bảng chi tiết; dùng fade 200ms để giảm phần việc khi mở/đóng.
+- Đổi bảng chi tiết sang dạng trượt từ cạnh dưới: mở 400ms, đóng 200ms, không zoom hay làm mờ nội dung. Bàn phím dùng cùng hiệu ứng; chế độ giảm chuyển động chỉ fade tại chỗ.
 - Nạp và giải mã ảnh chi tiết trước khi thẻ vào màn hình, tái sử dụng ảnh khi mở lại và ưu tiên ảnh đang được chọn.
-- Thẻ dự án fade một lần khi vào màn hình; thao tác bàn phím vẫn tức thì và hover chuyển động chỉ chạy với con trỏ chính xác.
+- Thẻ dự án fade một lần khi vào màn hình; hover chuyển động chỉ chạy với con trỏ chính xác.
 - Chuyển focus ban đầu của bảng chi tiết về tiêu đề, giữ viền focus cho các nút và liên kết khi dùng bàn phím.
 - Đổi biểu tượng GitHub sang logo chính thức từ Octicons.
 - Xóa README.md theo yêu cầu của chủ dự án.
