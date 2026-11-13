@@ -70,3 +70,12 @@ test('download lookup loads before interactions and announces its status', () =>
   assert.match(html, /id="dialog-download"[^>]*hidden/);
   assert.match(html, /id="dialog-download-status"[^>]*role="status"/);
 });
+
+test('dialog initially focuses its heading rather than the close button', () => {
+  const close = html.match(/<button\b[^>]*id="dialog-close"[^>]*>/)?.[0];
+  assert.ok(close);
+  assert.doesNotMatch(close, /\bautofocus\b/);
+  assert.match(html, /<h2\b[^>]*id="dialog-title"[^>]*tabindex="-1"[^>]*autofocus/);
+  const css = readFileSync(new URL('styles.css', root), 'utf8');
+  assert.match(css, /a:focus-visible, button:focus-visible\s*\{\s*outline:\s*3px/);
+});

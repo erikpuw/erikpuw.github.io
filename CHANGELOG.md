@@ -1,5 +1,11 @@
 # Thay đổi
 
+## 2026-11-14
+
+- Chuyển focus ban đầu của bảng chi tiết về tiêu đề, giữ viền focus cho các nút và liên kết khi dùng bàn phím.
+- Đổi biểu tượng GitHub sang logo chính thức từ Octicons.
+- Xóa README.md theo yêu cầu của chủ dự án.
+
 ## 2026-11-13
 
 - Bổ sung JARVIS, PUW Notch, Puw Player và Lenovo Toolkit, mỗi dự án trỏ đến repository riêng.
