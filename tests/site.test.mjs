@@ -63,3 +63,10 @@ test('project artwork keeps its aspect ratio in cards and details', () => {
     assert.ok(existsSync(new URL(`assets/detail-${id}.webp`, root)), `missing ${id} detail art`);
   }
 });
+
+test('download lookup loads before interactions and announces its status', () => {
+  const releases = html.indexOf('src="releases.js"');
+  assert.ok(releases >= 0 && releases < html.indexOf('src="app.js"'));
+  assert.match(html, /id="dialog-download"[^>]*hidden/);
+  assert.match(html, /id="dialog-download-status"[^>]*role="status"/);
+});

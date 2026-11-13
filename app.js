@@ -7,6 +7,7 @@
   const closeButton = document.querySelector('#dialog-close');
   let activeCard = null;
   let transition = null;
+  let downloadRequest = 0;
 
   function syncTheme() {
     const dark = root.dataset.theme ? root.dataset.theme === 'dark' : systemTheme.matches;
@@ -39,6 +40,32 @@
       if (transition === current) transition = null;
     });
   }
+  async function updateDownload(card) {
+    const request = ++downloadRequest;
+    const download = document.querySelector('#dialog-download');
+    const label = document.querySelector('#dialog-download-label');
+    const status = document.querySelector('#dialog-download-status');
+    download.hidden = true;
+    download.removeAttribute('href');
+    status.textContent = 'Đang tìm bản phát hành mới nhất...';
+    const repo = new URL(card.href).pathname.split('/').pop();
+    const release = await resolveLatestRelease(repo);
+    if (activeCard !== card || request !== downloadRequest) return;
+    if (release.status === 'unreleased') {
+      status.textContent = 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.';
+      return;
+    }
+    download.href = release.url || `${card.href}/releases/latest`;
+    label.textContent = release.status === 'download' ? 'Tải cho Windows' : 'Xem Releases';
+    if (release.status === 'download') {
+      status.textContent = `${release.version} · ${release.filename}`;
+    } else if (release.status === 'manual') {
+      status.textContent = `${release.version}. Chọn tệp phù hợp trong Releases.`;
+    } else {
+      status.textContent = 'Không kiểm tra được bản tải mới nhất. Mở Releases để xem các bản phát hành.';
+    }
+    download.hidden = false;
+  }
   function openProject(card) {
     const template = document.querySelector(`#${card.dataset.project}-details`);
     if (activeCard || !template) return;
@@ -55,6 +82,7 @@
     art.decoding = 'async';
     document.querySelector('#dialog-art').replaceChildren(art);
     document.querySelector('#dialog-details').replaceChildren(template.content.cloneNode(true));
+    updateDownload(card);
     card.style.viewTransitionName = 'project-panel';
     morph(() => {
       card.style.viewTransitionName = '';

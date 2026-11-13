@@ -8,5 +8,7 @@
 - Thêm bảng chi tiết, morph khi trình duyệt hỗ trợ, điều khiển bằng bàn phím và chế độ giảm chuyển động.
 - Giữ đúng tỷ lệ hình trên thẻ, dùng ảnh dọc riêng cho chi tiết và fade hai mép hero để hòa vào nền.
 - Cho ảnh chi tiết trên mobile phủ kín khung ngang, giữ tỷ lệ và cắt phần dư.
+- Thêm nút tải tệp Windows từ bản phát hành ổn định mới nhất; có trạng thái khi chưa có bản phát hành hoặc GitHub không trả dữ liệu.
+- Thu hẹp fade hai bên trên desktop, giữ nguyên fade mobile và giảm kích thước hiển thị của nút đóng.
 
 Bản thay đổi được chuẩn bị cục bộ. Chủ dự án tự kiểm tra và push lên GitHub Pages.

@@ -23,6 +23,10 @@ Sau đó mở [localhost:4173](http://localhost:4173). Dừng server bằng `Ctr
 
 Website có giao diện sáng và tối theo hệ thống; nút trên thanh điều hướng cho phép đổi và lưu lựa chọn trên trình duyệt. Mỗi thẻ mở bảng chi tiết với liên kết đến đúng repository.
 
+Nút **Tải cho Windows** lấy tệp từ bản phát hành ổn định mới nhất trên GitHub mỗi lần mở dự án, kể cả khi tên tệp chứa số phiên bản. Website ưu tiên tệp EXE trùng tên repository, hoặc tệp Windows hợp lệ duy nhất trong bản phát hành.
+
+Nếu chưa có bản phát hành, website hiện thông báo thay cho nút tải. Nếu có nhiều tệp cần lựa chọn, hoặc không lấy được dữ liệu GitHub, nút **Xem Releases** mở trang phát hành để chọn tệp. Tệp được tải trực tiếp từ GitHub, không lưu lại trên website.
+
 Trình duyệt có View Transitions sẽ hiển thị morph khi mở và đóng chi tiết. Khi bật giảm chuyển động, hoặc trình duyệt chưa có API này, nội dung vẫn mở được mà không chạy morph. Có thể đóng bằng nút đóng, phím `Esc` hoặc bấm ngoài bảng.
 
 Ảnh trên thẻ và ảnh chi tiết giữ tỷ lệ gốc. Trên mobile, ảnh chi tiết phủ kín khung ngang và cắt phần dư. Hero fade hai bên và phía dưới để hòa vào nền. Tất cả ảnh và icon đều nằm trong repository.
@@ -34,8 +38,9 @@ Sửa nội dung, liên kết và các `template` trong `index.html`. Màu sắc
 Chạy kiểm tra bằng Node.js 20 trở lên:
 
 ```powershell
-rtk proxy node --test tests/site.test.mjs
+rtk proxy node --test tests/site.test.mjs tests/releases.test.mjs
 rtk proxy node --check app.js
+rtk proxy node --check releases.js
 ```
 
 Trước khi push, xem lại cả hai giao diện trên desktop và mobile, thử từng dự án, phím `Esc` và liên kết GitHub. Kiểm tra tự động không thay thế việc xem trực tiếp.
