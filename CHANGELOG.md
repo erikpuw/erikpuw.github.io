@@ -2,6 +2,7 @@
 
 ## 2026-11-14
 
+- Nút tải luôn có sẵn, mờ và không bấm được khi đang kiểm tra; có kết quả thì bật liên kết phù hợp. Giữ chỗ cho trạng thái và hàng nút để khung không nhảy; ảnh phủ kín khung mà vẫn giữ tỷ lệ.
 - Khôi phục bảng chi tiết gọn ở giữa, có khoảng trống quanh khung trên mobile. Chỉ dịch dọc 10px khi mở 180ms và đóng 140ms, không trượt cả màn hình, zoom hay fade nội dung. Chế độ giảm chuyển động mở và đóng trực tiếp.
 - Nạp và giải mã ảnh chi tiết trước khi thẻ vào màn hình, tái sử dụng ảnh khi mở lại và ưu tiên ảnh đang được chọn.
 - Thẻ dự án fade một lần khi vào màn hình; hover chuyển động chỉ chạy với con trỏ chính xác.

@@ -143,12 +143,17 @@
     const download = document.querySelector('#dialog-download');
     const label = document.querySelector('#dialog-download-label');
     const status = document.querySelector('#dialog-download-status');
-    download.hidden = true;
+    download.setAttribute('aria-disabled', 'true');
+    download.setAttribute('aria-busy', 'true');
+    download.setAttribute('tabindex', '-1');
     download.removeAttribute('href');
+    download.removeAttribute('title');
+    label.textContent = 'Tải cho Windows';
     status.textContent = 'Đang tìm bản phát hành mới nhất...';
     const repo = new URL(card.href).pathname.split('/').pop();
     const release = await resolveLatestRelease(repo);
     if (activeCard !== card || request !== downloadRequest) return;
+    download.removeAttribute('aria-busy');
     if (release.status === 'unreleased') {
       status.textContent = 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.';
       return;
@@ -157,12 +162,14 @@
     label.textContent = release.status === 'download' ? 'Tải cho Windows' : 'Xem Releases';
     if (release.status === 'download') {
       status.textContent = `${release.version} · ${release.filename}`;
+      download.title = `${release.version} — ${release.filename}`;
     } else if (release.status === 'manual') {
       status.textContent = `${release.version}. Chọn tệp phù hợp trong Releases.`;
     } else {
       status.textContent = 'Không kiểm tra được bản tải mới nhất. Mở Releases để xem các bản phát hành.';
     }
-    download.hidden = false;
+    download.removeAttribute('aria-disabled');
+    download.removeAttribute('tabindex');
   }
   function openProject(card) {
     const template = document.querySelector(`#${card.dataset.project}-details`);
