@@ -155,7 +155,7 @@
     if (activeCard !== card || request !== downloadRequest) return;
     download.removeAttribute('aria-busy');
     if (release.status === 'unreleased') {
-      status.textContent = 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.';
+      status.textContent = card.dataset.unreleasedMessage || 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.';
       return;
     }
     download.href = release.url || `${card.href}/releases/latest`;

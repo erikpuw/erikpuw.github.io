@@ -2,6 +2,7 @@
 
 ## 2026-11-14
 
+- Thêm puwdesk với hình vườn nổi, thông tin dự án và trạng thái chuẩn bị phát hành. Tự kiểm tra GitHub Releases để bật nút tải theo bản ổn định mới nhất, không cố định phiên bản.
 - Nút tải luôn có sẵn, mờ và không bấm được khi đang kiểm tra; có kết quả thì bật liên kết phù hợp. Giữ chỗ cho trạng thái và hàng nút để khung không nhảy; ảnh phủ kín khung mà vẫn giữ tỷ lệ.
 - Khôi phục bảng chi tiết gọn ở giữa, có khoảng trống quanh khung trên mobile. Chỉ dịch dọc 10px khi mở 180ms và đóng 140ms, không trượt cả màn hình, zoom hay fade nội dung. Chế độ giảm chuyển động mở và đóng trực tiếp.
 - Nạp và giải mã ảnh chi tiết trước khi thẻ vào màn hình, tái sử dụng ảnh khi mở lại và ưu tiên ảnh đang được chọn.
