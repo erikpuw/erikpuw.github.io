@@ -168,6 +168,7 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .project-dialog { width: calc(100% - 1.5rem); max-height: calc(100dvh - 1.5rem); }
   .project-dialog[open] { grid-template-columns: 1fr; }
   .dialog-art { min-height: 190px; height: 24dvh; max-height: 240px; }
+  .dialog-art > img { object-fit: cover; }
   .dialog-content { padding: 1.5rem; }
   .dialog-content h2 { font-size: 1.8rem; }
 }

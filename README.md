@@ -25,7 +25,7 @@ Website có giao diện sáng và tối theo hệ thống; nút trên thanh đi�
 
 Trình duyệt có View Transitions sẽ hiển thị morph khi mở và đóng chi tiết. Khi bật giảm chuyển động, hoặc trình duyệt chưa có API này, nội dung vẫn mở được mà không chạy morph. Có thể đóng bằng nút đóng, phím `Esc` hoặc bấm ngoài bảng.
 
-Ảnh trên thẻ và ảnh chi tiết giữ tỷ lệ gốc. Hero fade hai bên và phía dưới để hòa vào nền. Tất cả ảnh và icon đều nằm trong repository.
+Ảnh trên thẻ và ảnh chi tiết giữ tỷ lệ gốc. Trên mobile, ảnh chi tiết phủ kín khung ngang và cắt phần dư. Hero fade hai bên và phía dưới để hòa vào nền. Tất cả ảnh và icon đều nằm trong repository.
 
 ## Chỉnh nội dung và kiểm tra
 
