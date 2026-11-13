@@ -8,9 +8,9 @@
   const projectCards = Array.from(document.querySelectorAll('.project-card'));
   const motionTokens = getComputedStyle(root);
   const easeOut = motionTokens.getPropertyValue('--ease-out').trim();
-  const sheetDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-sheet'));
+  const detailDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-detail'));
   const dismissDuration = Number.parseFloat(motionTokens.getPropertyValue('--duration-dismiss'));
-  const sheetEase = motionTokens.getPropertyValue('--ease-sheet').trim();
+  const detailEase = motionTokens.getPropertyValue('--ease-detail').trim();
   const dismissEase = motionTokens.getPropertyValue('--ease-dismiss').trim();
   const reveals = new Map();
   const artworkCache = new Map();
@@ -109,26 +109,26 @@
   // Keep ordinary repository links working on browsers without native dialogs.
   if (typeof dialog.showModal !== 'function') return;
 
-  // Slide the opaque sheet from its edge; interrupt from its current position.
+  // Keep the detail surface opaque and reverse from its visible position.
   function animateDialog(update, direction) {
     const current = dialog.open ? getComputedStyle(dialog) : null;
-    const from = reducedMotion.matches ? { opacity: current?.opacity || '0' } : { transform: current?.transform || 'translateY(100%)' };
+    const from = { transform: current?.transform || 'translateX(100%)' };
     dialogAnimation?.cancel();
     dialogAnimation = null;
     if (direction === 'close') dialog.dataset.closing = 'true';
     else delete dialog.dataset.closing;
-    if (typeof dialog.animate !== 'function') {
+    if (reducedMotion.matches || typeof dialog.animate !== 'function') {
       dialog.dataset.motion = 'instant';
       update();
       return Promise.resolve();
     }
-    dialog.dataset.motion = 'sheet';
+    dialog.dataset.motion = 'detail';
     const entering = direction === 'open';
     if (entering) update();
-    const to = reducedMotion.matches ? { opacity: entering ? 1 : 0 } : { transform: entering ? 'translateY(0%)' : 'translateY(100%)' };
+    const to = { transform: entering ? 'translateX(0%)' : 'translateX(100%)' };
     const animation = dialog.animate([from, to], {
-      duration: entering && !reducedMotion.matches ? sheetDuration : dismissDuration,
-      easing: entering ? sheetEase : dismissEase, fill: 'both',
+      duration: entering ? detailDuration : dismissDuration,
+      easing: entering ? detailEase : dismissEase, fill: 'both',
     });
     dialogAnimation = animation;
     return animation.finished.catch(() => {}).then(() => {
