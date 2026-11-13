@@ -1,42 +1,99 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
-  <title>Erik PUW | Projects</title>
-  <style>
-    body {
-      background: #0d1117;
-      color: #f0f6fc;
-      font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 80px auto;
-      padding: 20px;
-    }
-    h1 { color: #58a6ff; }
-    a { color: #58a6ff; }
-    .project {
-      background: #161b22;
-      padding: 20px;
-      border-radius: 12px;
-      margin: 15px 0;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Các dự án Windows của erikpuw: JARVIS, PUW Notch, Puw Player và Lenovo Toolkit. Khám phá ứng dụng và mã nguồn trên GitHub.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f1f3f8">
+  <meta property="og:title" content="erikpuw | Phần mềm cho Windows">
+  <meta property="og:description" content="Trợ lý AI, âm nhạc và tiện ích Windows do erikpuw phát triển.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://erikpuw.github.io/">
+  <meta property="og:image" content="https://erikpuw.github.io/assets/social.png">
+  <link rel="canonical" href="https://erikpuw.github.io/">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/hero-light.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="styles.css">
+  <title>erikpuw | Phần mềm cho Windows</title>
+  <script>
+    try {
+      const theme = localStorage.getItem('erikpuw-theme');
+      if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+    } catch { /* The system theme still works when storage is unavailable. */ }
+  </script>
+  <script src="app.js" defer></script>
 </head>
 <body>
-  <h1>Erik PUW</h1>
-  <p>Welcome to my official website.</p>
-
-  <h2>My Projects</h2>
-
-  <div class="project">
-    <h3>PUW Notch</h3>
-    <p>Explore my software project.</p>
-    <a href="https://github.com/erikpuw">
-      View on GitHub
-    </a>
+  <a class="skip-link" href="#projects">Đến các dự án</a>
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="wordmark" href="./" aria-label="erikpuw, trang chủ">erikpuw</a>
+      <nav class="nav-glass" aria-label="Điều hướng chính">
+        <a class="nav-projects" href="#projects">Dự án</a>
+        <a class="nav-github" href="https://github.com/erikpuw" target="_blank" rel="noopener noreferrer"><span class="icon icon-github" aria-hidden="true"></span><span>GitHub</span></a>
+        <span class="nav-divider" aria-hidden="true"></span>
+        <button id="theme-toggle" class="icon-button theme-toggle" aria-label="Chuyển giao diện" title="Chuyển giao diện" hidden><span class="icon icon-sun" aria-hidden="true"></span><span class="icon icon-moon" aria-hidden="true"></span></button>
+      </nav>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow">Phần mềm cho Windows</p>
+          <h1 id="hero-title">Bốn dự án.<br>Một góc làm việc tốt hơn.</h1>
+          <p class="hero-description">Trợ lý AI, âm nhạc và tiện ích Windows do erikpuw phát triển.</p>
+          <a class="button button-primary" href="#projects">Khám phá dự án<span class="icon icon-arrow-right" aria-hidden="true"></span></a>
+        </div>
+        <div class="hero-art" aria-hidden="true"><img class="artwork artwork-light" src="assets/hero-light.webp" alt="" width="1818" height="865" fetchpriority="high"><img class="artwork artwork-dark" src="assets/hero-dark.webp" alt="" width="1818" height="865" fetchpriority="high"></div>
+      </section>
+      <section class="projects" id="projects" aria-labelledby="projects-title">
+        <h2 id="projects-title">Dự án của tôi</h2>
+        <div class="project-grid">
+          <a class="project-card project-jarvis" data-project="jarvis" href="https://github.com/erikpuw/jarvis-windows" target="_blank" rel="noopener noreferrer" aria-labelledby="jarvis-title" aria-describedby="jarvis-description">
+            <div class="project-art art-jarvis" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="0" y="0" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="0" y="0" width="1860" height="846"/></svg></div>
+            <div class="project-copy"><span class="project-mark icon icon-chat" aria-hidden="true"></span><span class="project-category">Trợ lý AI</span><h3 id="jarvis-title">JARVIS</h3><p id="jarvis-description">Trợ lý AI với giọng nói tiếng Việt.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
+          </a>
+          <a class="project-card project-notch" data-project="notch" href="https://github.com/erikpuw/puw_notch" target="_blank" rel="noopener noreferrer" aria-labelledby="notch-title" aria-describedby="notch-description">
+            <div class="project-art art-notch" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="-930" y="0" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="-930" y="0" width="1860" height="846"/></svg></div>
+            <div class="project-copy"><span class="project-mark icon icon-notch" aria-hidden="true"></span><span class="project-category">Tiện ích desktop</span><h3 id="notch-title">PUW Notch</h3><p id="notch-description">Nhạc và tiện ích ngay trên desktop.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
+          </a>
+          <a class="project-card project-player" data-project="player" href="https://github.com/erikpuw/puw-player" target="_blank" rel="noopener noreferrer" aria-labelledby="player-title" aria-describedby="player-description">
+            <div class="project-art art-player" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="0" y="-423" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="0" y="-423" width="1860" height="846"/></svg></div>
+            <div class="project-copy"><span class="project-mark icon icon-music" aria-hidden="true"></span><span class="project-category">Âm nhạc</span><h3 id="player-title">Puw Player</h3><p id="player-description">Nghe nhạc offline, lời chạy theo bài.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
+          </a>
+          <a class="project-card project-toolkit" data-project="toolkit" href="https://github.com/erikpuw/lenovo-toolkit" target="_blank" rel="noopener noreferrer" aria-labelledby="toolkit-title" aria-describedby="toolkit-description">
+            <div class="project-art art-toolkit" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="-930" y="-423" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="-930" y="-423" width="1860" height="846"/></svg></div>
+            <div class="project-copy"><span class="project-mark icon icon-laptop" aria-hidden="true"></span><span class="project-category">Phần cứng</span><h3 id="toolkit-title">Lenovo Toolkit</h3><p id="toolkit-description">Nguồn, quạt và pin cho laptop Lenovo.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
+          </a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="footer-owner" href="./">erikpuw</a><a href="https://github.com/erikpuw" target="_blank" rel="noopener noreferrer"><span class="icon icon-github" aria-hidden="true"></span>GitHub<span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></footer>
   </div>
+  <dialog id="project-dialog" class="project-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
+    <button id="dialog-close" class="icon-button dialog-close" aria-label="Đóng chi tiết dự án" autofocus><span class="icon icon-x" aria-hidden="true"></span></button>
+    <div id="dialog-art" class="dialog-art" aria-hidden="true"></div>
+    <div class="dialog-content"><span id="dialog-category" class="project-category"></span><h2 id="dialog-title"></h2><p id="dialog-description" class="dialog-description"></p><div id="dialog-details"></div><a id="dialog-repository" class="button button-primary" href="https://github.com/erikpuw" target="_blank" rel="noopener noreferrer"><span class="icon icon-github" aria-hidden="true"></span>Xem trên GitHub<span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></div>
+  </dialog>
+  <template id="jarvis-details">
+    <p>Trợ lý chạy trên Windows, kết nối mô hình ngôn ngữ cục bộ để trò chuyện, tra cứu và thực hiện tác vụ.</p>
+    <ul class="feature-list"><li>Nhận giọng nói và đọc câu trả lời bằng tiếng Việt.</li><li>Tra cứu tài liệu cá nhân với kho tri thức cục bộ.</li><li>Lưu lịch sử và phân quyền riêng cho từng người dùng.</li></ul>
+    <p class="detail-note">Cần thiết lập mô hình AI và môi trường chạy. Xem hướng dẫn trong repository.</p>
+  </template>
+  <template id="notch-details">
+    <p>Một notch nhỏ trên desktop Windows, gom điều khiển nhạc và các thông tin thường dùng vào cùng một nơi.</p>
+    <ul class="feature-list"><li>Xem bài đang phát và điều khiển trình nghe nhạc.</li><li>Xem thời tiết, lịch và các tiện ích desktop.</li><li>Mở rộng từ pill nhỏ gọn sang bảng tiện ích.</li></ul>
+    <p class="detail-note">Khả năng điều khiển nhạc phụ thuộc trình phát và hỗ trợ media của Windows.</p>
+  </template>
+  <template id="player-details">
+    <p>Trình nghe nhạc cho bộ sưu tập trên máy. Thêm tệp hoặc thư mục, tạo playlist và nghe theo cách của bạn.</p>
+    <ul class="feature-list"><li>Thư viện nhạc và playlist, không di chuyển tệp gốc.</li><li>Lời bài hát đồng bộ từ tệp LRC hoặc LRCLIB khi bật.</li><li>Tích hợp phím media và kết nối với PUW Notch.</li></ul>
+    <p class="detail-note">Nghe nhạc offline. Tìm lời qua LRCLIB cần mạng và chỉ hoạt động khi bạn bật.</p>
+  </template>
+  <template id="toolkit-details">
+    <p>Tiện ích viết bằng Rust cho laptop Lenovo Legion, LOQ và IdeaPad Gaming được hỗ trợ.</p>
+    <ul class="feature-list"><li>Chuyển chế độ nguồn, theo dõi quạt và cảm biến.</li><li>Quản lý sạc và xem thông tin sức khỏe pin.</li><li>Điều khiển đèn, phím Fn và thao tác từ khay hệ thống.</li></ul>
+    <p class="detail-note">Dự án không chính thức, không liên kết với Lenovo. Điều khiển phần cứng phụ thuộc máy và firmware; đọc hướng dẫn trước khi dùng.</p>
+  </template>
 </body>
 </html>
