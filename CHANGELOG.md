@@ -1,5 +1,9 @@
 # Thay đổi
 
+## 2026-11-16
+
+- Đồng bộ cỡ tiêu đề puwdesk với các thẻ dự án khác trên desktop và mobile; đổi mô tả thành “Desktop của bạn sẽ là nơi trải nghiệm thư giãn”.
+
 ## 2026-11-14
 
 - Dựng thẻ puwdesk theo mẫu đã duyệt: màn hình bạc với đảo nổi bên trong, hai lớp hình nền phía sau và nền trong suốt. Bỏ fade chia đôi, giữ chữ và nút thật, bố trí riêng cho mobile.

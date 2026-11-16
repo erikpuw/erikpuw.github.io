@@ -97,7 +97,6 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-puwdesk .project-art { inset: 0 1.25rem 0 42%; }
 .project-puwdesk .artwork { object-fit: contain; }
 .project-puwdesk .project-copy { padding: 2rem; }
-.project-puwdesk .project-copy h3 { font-size: clamp(2rem, 3.4vw, 3rem); }
 .project-puwdesk .project-copy p { max-width: 40%; }
 .dialog-art:has(> img[src$="detail-puwdesk.webp"]) { background: var(--surface); }
 .dialog-art > img[src$="detail-puwdesk.webp"] { object-fit: contain; padding: 1rem; }
@@ -192,7 +191,6 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .project-jarvis .project-copy p { max-width: 52%; }
   .project-puwdesk { display: flex; flex-direction: column-reverse; min-height: 0; }
   .project-puwdesk .project-copy { min-height: 0; padding: 1.5rem 4.75rem .5rem 1.5rem; }
-  .project-puwdesk .project-copy h3 { font-size: 1.85rem; }
   .project-puwdesk .project-copy p { max-width: none; margin-bottom: 0; }
   .project-puwdesk .card-arrow { position: absolute; top: 1.5rem; right: 1.25rem; margin: 0; }
   .project-puwdesk .project-art { position: relative; inset: auto; height: 190px; margin: 0 .75rem .75rem; }
