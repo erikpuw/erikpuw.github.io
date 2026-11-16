@@ -2,6 +2,7 @@
 
 ## 2026-11-16
 
+- Đổi URL tải CSS sang phiên bản đã sửa cỡ chữ để trình duyệt không tái dùng stylesheet cũ khi HTML đã cập nhật.
 - Đồng bộ cỡ tiêu đề puwdesk với các thẻ dự án khác trên desktop và mobile; đổi mô tả thành “Desktop của bạn sẽ là nơi trải nghiệm thư giãn”.
 
 ## 2026-11-14
