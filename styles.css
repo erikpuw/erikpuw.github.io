@@ -92,12 +92,10 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-card { position: relative; display: block; overflow: hidden; isolation: isolate; min-height: 248px; border-radius: 24px; border: 1px solid var(--line); background: var(--surface); }
 .project-jarvis { grid-column: span 13; background: #151c24; color: #f5f6f8; border-color: #36404c; }
 .project-notch { grid-column: span 11; }
-.project-player, .project-toolkit { grid-column: span 12; }
-.project-puwdesk { grid-column: span 24; min-height: clamp(260px, 28vw, 340px); }
-.project-puwdesk .project-art { inset: 0 1.25rem 0 42%; }
+.project-player, .project-toolkit, .project-puwdesk, .project-puwbar { grid-column: span 12; }
+.project-puwdesk .project-art { inset: .75rem .75rem .75rem 46%; }
 .project-puwdesk .artwork { object-fit: contain; }
-.project-puwdesk .project-copy { padding: 2rem; }
-.project-puwdesk .project-copy p { max-width: 40%; }
+.project-puwbar .artwork { object-fit: cover; object-position: right center; }
 .dialog-art:has(> img[src$="detail-puwdesk.webp"]) { background: var(--surface); }
 .dialog-art > img[src$="detail-puwdesk.webp"] { object-fit: contain; padding: 1rem; }
 .project-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; min-height: inherit; padding: 1.65rem; }
