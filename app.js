@@ -1,6 +1,7 @@
 (() => {
   const root = document.documentElement;
   const themeButton = document.querySelector('#theme-toggle');
+  const langButton = document.querySelector('#lang-toggle');
   const systemTheme = matchMedia('(prefers-color-scheme: dark)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const dialog = document.querySelector('#project-dialog');
@@ -19,15 +20,252 @@
   let activeCard = null;
   let downloadRequest = 0;
 
+  const copy = {
+    vi: {
+      title: 'erikpuw | Phần mềm cho Windows',
+      metaDescription: 'Các dự án Windows của erikpuw: JARVIS, PUW Notch, Puw Player, Lenovo Toolkit, puwdesk và PuwBar. Khám phá ứng dụng và mã nguồn trên GitHub.',
+      skipLink: 'Đến các dự án',
+      wordmarkLabel: 'erikpuw, trang chủ',
+      navLabel: 'Điều hướng chính',
+      switchLang: 'Chuyển sang tiếng Anh',
+      toLight: 'Chuyển sang giao diện sáng',
+      toDark: 'Chuyển sang giao diện tối',
+      eyebrow: 'Phần mềm cho Windows',
+      heroTitle: 'Một góc làm việc tốt hơn.',
+      heroDescription: 'Trợ lý AI, âm nhạc và tiện ích Windows do erikpuw phát triển.',
+      heroCta: 'Khám phá dự án',
+      projectsTitle: 'Dự án của tôi',
+      dialogClose: 'Đóng chi tiết dự án',
+      downloadWin: 'Tải cho Windows',
+      viewReleases: 'Xem Releases',
+      viewGithub: 'Xem trên GitHub',
+      checkingRelease: 'Đang tìm bản phát hành mới nhất...',
+      unreleasedDefault: 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.',
+      manualRelease: version => `${version}. Chọn tệp phù hợp trong Releases.`,
+      unavailableRelease: 'Không kiểm tra được bản tải mới nhất. Mở Releases để xem các bản phát hành.',
+      projects: {
+        jarvis: {
+          category: 'Trợ lý AI',
+          description: 'Trợ lý AI với giọng nói tiếng Việt.',
+        },
+        notch: {
+          category: 'Tiện ích desktop',
+          description: 'Nhạc và tiện ích ngay trên desktop.',
+        },
+        player: {
+          category: 'Âm nhạc',
+          description: 'Nghe nhạc offline, lời chạy theo bài.',
+        },
+        toolkit: {
+          category: 'Phần cứng',
+          description: 'Nguồn, quạt và pin cho laptop Lenovo.',
+        },
+        puwdesk: {
+          category: 'Hình nền động',
+          description: 'Desktop của bạn sẽ là nơi trải nghiệm thư giãn',
+          unreleased: 'Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases.',
+        },
+        puwbar: {
+          category: 'Thanh taskbar',
+          description: 'Tùy biến giao diện thanh taskbar Windows gọn gàng và hiện đại.',
+          unreleased: 'Đang chuẩn bị đưa lên GitHub. Bản tải sẽ xuất hiện khi có trên GitHub Releases.',
+        },
+      },
+    },
+    en: {
+      title: 'erikpuw | Windows Software',
+      metaDescription: 'Windows software by erikpuw: JARVIS, PUW Notch, Puw Player, Lenovo Toolkit, puwdesk, and PuwBar. Explore apps and source code on GitHub.',
+      skipLink: 'Skip to projects',
+      wordmarkLabel: 'erikpuw, home',
+      navLabel: 'Main navigation',
+      switchLang: 'Switch to Vietnamese',
+      toLight: 'Switch to light theme',
+      toDark: 'Switch to dark theme',
+      eyebrow: 'Windows Software',
+      heroTitle: 'A better workspace.',
+      heroDescription: 'AI assistant, music, and Windows utilities crafted by erikpuw.',
+      heroCta: 'Explore projects',
+      projectsTitle: 'My projects',
+      dialogClose: 'Close project details',
+      downloadWin: 'Download for Windows',
+      viewReleases: 'View Releases',
+      viewGithub: 'View on GitHub',
+      checkingRelease: 'Checking for the latest release...',
+      unreleasedDefault: 'No release available yet. Check installation instructions on GitHub.',
+      manualRelease: version => `${version}. Choose the right package in Releases.`,
+      unavailableRelease: 'Could not check the latest download. Open Releases to view available builds.',
+      projects: {
+        jarvis: {
+          category: 'AI Assistant',
+          description: 'AI assistant with Vietnamese voice.',
+          intro: 'A Windows assistant that connects to local language models for chat, lookup, and everyday tasks.',
+          features: [
+            'Vietnamese speech recognition and spoken replies.',
+            'Personal document lookup powered by a local knowledge base.',
+            'Per-user conversation history and access controls.',
+          ],
+          note: 'Requires configuring an AI model and runtime environment. See setup instructions in the repository.',
+        },
+        notch: {
+          category: 'Desktop utility',
+          description: 'Music and quick utilities right on your desktop.',
+          intro: 'A compact notch for the Windows desktop that brings media controls and everyday tools into one place.',
+          features: [
+            'View now-playing tracks and control your music player.',
+            'Quick access to weather, calendar, and desktop widgets.',
+            'Expands smoothly from a compact pill into a utility panel.',
+          ],
+          note: 'Media playback control depends on the active player and Windows media integration.',
+        },
+        player: {
+          category: 'Music',
+          description: 'Offline music player with synced lyrics.',
+          intro: 'A music player built for your local library. Add files or folders, build playlists, and listen your way.',
+          features: [
+            'Local library and playlists without moving original files.',
+            'Synced lyrics from LRC files or optional LRCLIB lookup.',
+            'Media key integration and seamless pairing with PUW Notch.',
+          ],
+          note: 'Plays offline. Online lyric lookup via LRCLIB requires internet and only runs when enabled.',
+        },
+        toolkit: {
+          category: 'Hardware',
+          description: 'Power, fans, and battery control for Lenovo laptops.',
+          intro: 'A Rust utility for supported Lenovo Legion, LOQ, and IdeaPad Gaming laptops.',
+          features: [
+            'Switch power modes and monitor fans and thermal sensors.',
+            'Manage charging limits and inspect battery health.',
+            'Control lighting, Fn keys, and quick actions from the system tray.',
+          ],
+          note: 'Unofficial project, not affiliated with Lenovo. Hardware controls depend on device and firmware; read the guide before use.',
+        },
+        puwdesk: {
+          category: 'Live wallpaper',
+          description: 'Turn your desktop into a calm, living space.',
+          unreleased: 'Preparing for release. Downloads will appear once published on GitHub Releases.',
+          intro: 'An interactive live wallpaper for Windows, written in Rust. The Floating Sky Garden brings trees, flowers, clouds, and gentle motion to your desktop.',
+          features: [
+            'Reacts softly to pointer movement and shifts between day and night by local time.',
+            'Automatically pauses when covered by maximized or fullscreen windows, lock screen, or display off.',
+            'Vietnamese–English settings, reduced-motion support, and start with Windows.',
+          ],
+          note: 'The download button automatically checks for the latest stable GitHub Release and stays inactive until published.',
+        },
+        puwbar: {
+          category: 'Taskbar',
+          description: 'Customize your Windows taskbar with a cleaner, modern look.',
+          unreleased: 'Preparing to publish on GitHub. Downloads will appear once available on GitHub Releases.',
+          intro: 'A Windows utility that reimagines the taskbar with a cleaner, more modern aesthetic.',
+          note: 'This project is being prepared for GitHub. Full details and stable downloads will appear automatically once published on GitHub Releases.',
+        },
+      },
+    },
+  };
+
+  function getLang() {
+    return root.dataset.lang === 'en' ? 'en' : 'vi';
+  }
+  function getStrings() {
+    return copy[getLang()];
+  }
+  function setText(selector, value) {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = value;
+  }
+  function setAttr(selector, attr, value) {
+    const el = document.querySelector(selector);
+    if (el) el.setAttribute(attr, value);
+  }
+  function buildProjectDetails(id) {
+    const lang = getLang();
+    if (lang === 'en') {
+      const info = copy.en.projects[id];
+      if (info && info.intro) {
+        const nodes = [];
+        const intro = document.createElement('p');
+        intro.textContent = info.intro;
+        nodes.push(intro);
+        if (Array.isArray(info.features) && info.features.length) {
+          const list = document.createElement('ul');
+          list.className = 'feature-list';
+          for (const item of info.features) {
+            const li = document.createElement('li');
+            li.textContent = item;
+            list.appendChild(li);
+          }
+          nodes.push(list);
+        }
+        if (info.note) {
+          const note = document.createElement('p');
+          note.className = 'detail-note';
+          note.textContent = info.note;
+          nodes.push(note);
+        }
+        return nodes;
+      }
+    }
+    const template = document.querySelector(`#${id}-details`);
+    return template ? [template.content.cloneNode(true)] : null;
+  }
   function syncTheme() {
     const dark = root.dataset.theme ? root.dataset.theme === 'dark' : systemTheme.matches;
-    const label = dark ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối';
+    const t = getStrings();
+    const label = dark ? t.toLight : t.toDark;
     themeButton.setAttribute('aria-label', label);
     themeButton.title = label;
-    document.querySelector('meta[name="theme-color"]').content = getComputedStyle(root).getPropertyValue('--page').trim();
+    const themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (themeMeta) themeMeta.content = getComputedStyle(root).getPropertyValue('--page').trim();
+  }
+  function syncLang() {
+    const lang = getLang();
+    const t = copy[lang];
+    root.lang = lang;
+    root.dataset.lang = lang;
+    if (typeof document.title === 'string') document.title = t.title;
+    const descMeta = document.querySelector('meta[name="description"]');
+    if (descMeta) descMeta.content = t.metaDescription;
+    setText('.skip-link', t.skipLink);
+    setAttr('.wordmark', 'aria-label', t.wordmarkLabel);
+    setAttr('.nav-glass', 'aria-label', t.navLabel);
+    if (langButton) {
+      langButton.setAttribute('aria-label', t.switchLang);
+      langButton.title = t.switchLang;
+      langButton.setAttribute('aria-pressed', String(lang === 'en'));
+    }
+    setText('.eyebrow', t.eyebrow);
+    setText('#hero-title', t.heroTitle);
+    setText('.hero-description', t.heroDescription);
+    setText('#hero-cta-label', t.heroCta);
+    setText('#projects-title', t.projectsTitle);
+    setAttr('#dialog-close', 'aria-label', t.dialogClose);
+    setText('#dialog-repo-label', t.viewGithub);
+    projectCards.forEach(card => {
+      const info = t.projects[card.dataset.project];
+      if (!info) return;
+      const cat = card.querySelector('.project-category');
+      const desc = card.querySelector('p');
+      if (cat) cat.textContent = info.category;
+      if (desc) desc.textContent = info.description;
+    });
+    syncTheme();
+    if (activeCard && dialog.open) {
+      document.querySelector('#dialog-description').textContent = activeCard.querySelector('p').textContent;
+      document.querySelector('#dialog-category').textContent = activeCard.querySelector('.project-category').textContent;
+      const details = buildProjectDetails(activeCard.dataset.project);
+      if (details) document.querySelector('#dialog-details').replaceChildren(...details);
+      updateDownload(activeCard);
+    }
   }
   themeButton.hidden = false;
-  syncTheme();
+  if (langButton) {
+    langButton.hidden = false;
+    langButton.addEventListener('click', () => {
+      root.dataset.lang = getLang() === 'en' ? 'vi' : 'en';
+      try { localStorage.setItem('erikpuw-lang', root.dataset.lang); } catch { /* Language toggle still works without storage. */ }
+      syncLang();
+    });
+  }
+  syncLang();
   systemTheme.addEventListener('change', syncTheme);
   themeButton.addEventListener('click', () => {
     const dark = root.dataset.theme ? root.dataset.theme === 'dark' : systemTheme.matches;
@@ -140,6 +378,7 @@
   }
   async function updateDownload(card) {
     const request = ++downloadRequest;
+    const t = getStrings();
     const download = document.querySelector('#dialog-download');
     const label = document.querySelector('#dialog-download-label');
     const status = document.querySelector('#dialog-download-status');
@@ -148,32 +387,36 @@
     download.setAttribute('tabindex', '-1');
     download.removeAttribute('href');
     download.removeAttribute('title');
-    label.textContent = 'Tải cho Windows';
-    status.textContent = 'Đang tìm bản phát hành mới nhất...';
+    label.textContent = t.downloadWin;
+    status.textContent = t.checkingRelease;
     const repo = new URL(card.href).pathname.split('/').pop();
     const release = await resolveLatestRelease(repo);
     if (activeCard !== card || request !== downloadRequest) return;
+    const current = getStrings();
     download.removeAttribute('aria-busy');
     if (release.status === 'unreleased') {
-      status.textContent = card.dataset.unreleasedMessage || 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.';
+      const info = current.projects[card.dataset.project];
+      status.textContent = getLang() === 'en'
+        ? (info?.unreleased || current.unreleasedDefault)
+        : (card.dataset.unreleasedMessage || info?.unreleased || current.unreleasedDefault);
       return;
     }
     download.href = release.url || `${card.href}/releases/latest`;
-    label.textContent = release.status === 'download' ? 'Tải cho Windows' : 'Xem Releases';
+    label.textContent = release.status === 'download' ? current.downloadWin : current.viewReleases;
     if (release.status === 'download') {
       status.textContent = `${release.version} · ${release.filename}`;
       download.title = `${release.version} — ${release.filename}`;
     } else if (release.status === 'manual') {
-      status.textContent = `${release.version}. Chọn tệp phù hợp trong Releases.`;
+      status.textContent = current.manualRelease(release.version);
     } else {
-      status.textContent = 'Không kiểm tra được bản tải mới nhất. Mở Releases để xem các bản phát hành.';
+      status.textContent = current.unavailableRelease;
     }
     download.removeAttribute('aria-disabled');
     download.removeAttribute('tabindex');
   }
   function openProject(card) {
-    const template = document.querySelector(`#${card.dataset.project}-details`);
-    if (activeCard || !template) return;
+    const details = buildProjectDetails(card.dataset.project);
+    if (activeCard || !details) return;
     activeCard = card;
     document.querySelector('#dialog-title').textContent = card.querySelector('h3').textContent;
     document.querySelector('#dialog-description').textContent = card.querySelector('p').textContent;
@@ -181,7 +424,7 @@
     document.querySelector('#dialog-repository').href = card.href;
     const art = getProjectArtwork(card, 'high');
     document.querySelector('#dialog-art').replaceChildren(art);
-    document.querySelector('#dialog-details').replaceChildren(template.content.cloneNode(true));
+    document.querySelector('#dialog-details').replaceChildren(...details);
     updateDownload(card);
     animateDialog(() => {
       dialog.showModal();

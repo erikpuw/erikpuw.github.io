@@ -51,7 +51,12 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 /* A web frosted-glass approximation, used only for floating navigation. */
 .nav-glass { display: flex; align-items: center; gap: .3rem; padding: .25rem; border: 1px solid var(--line); border-radius: 999px; background: var(--glass); backdrop-filter: blur(20px) saturate(120%); box-shadow: inset 0 1px 0 rgb(255 255 255 / 12%), 0 4px 14px var(--shadow); font-size: .85rem; font-weight: 600; }
 .nav-glass a { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding-inline: 1rem; border-radius: 999px; }
-.nav-projects { background: var(--glass); box-shadow: 0 2px 6px var(--shadow); }
+.nav-lang { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: .3rem; padding-inline: .95rem; border: 0; border-radius: 999px; background: var(--glass); box-shadow: 0 2px 6px var(--shadow); font-size: .82rem; font-weight: 650; letter-spacing: .02em; }
+.nav-lang:hover { background: var(--surface); }
+.lang-opt { color: var(--muted); transition: color 160ms ease; }
+.lang-sep { color: var(--line); font-weight: 400; }
+:root:not([data-lang="en"]) .lang-opt[data-lang-opt="vi"],
+:root[data-lang="en"] .lang-opt[data-lang-opt="en"] { color: var(--ink); }
 .nav-github:hover { background: var(--surface); }
 .nav-divider { width: 1px; height: 18px; margin-inline: .3rem; background: var(--line); }
 /* Phosphor regular icons are embedded so file previews work without CORS or a CDN. */
@@ -144,8 +149,8 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .dialog-close:hover::before { background: var(--surface); }
 .dialog-open { overflow: hidden; }
 @media (prefers-reduced-motion: no-preference) {
-  .button, .icon-button, .nav-glass a { transition: background-color 160ms ease, transform 160ms var(--ease-out); }
-  .button:active:not(:focus-visible):not([aria-disabled="true"]), .icon-button:active:not(:focus-visible) { transform: scale(.97); }
+  .button, .icon-button, .nav-glass a, .nav-lang { transition: background-color 160ms ease, transform 160ms var(--ease-out); }
+  .button:active:not(:focus-visible):not([aria-disabled="true"]), .icon-button:active:not(:focus-visible), .nav-lang:active:not(:focus-visible) { transform: scale(.97); }
   .project-card { transition: transform 250ms var(--ease-out); }
   .card-arrow { transition: transform 200ms var(--ease-out); }
   .project-card:active:not(:focus-visible) { transform: scale(.985); }
@@ -171,6 +176,7 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .wordmark { font-size: 1.5rem; }
   .nav-glass { gap: 0; }
   .nav-glass a { padding-inline: .65rem; font-size: .8rem; }
+  .nav-lang { padding-inline: .7rem; font-size: .78rem; }
   .nav-github > span:not(.icon) { display: none; }
   .nav-divider { margin-inline: .1rem; }
   .hero { display: block; min-height: 0; padding-block: 2.25rem 18rem; }
@@ -201,7 +207,6 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 }
 @media (max-width: 359px) {
   .site-shell { padding-inline: 1rem; }
-  .nav-projects { display: none !important; }
   .project-copy { padding: 1.2rem; }
   .project-copy h3 { font-size: 1.45rem; }
   .project-copy p { max-width: 58%; }

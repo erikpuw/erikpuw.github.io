@@ -14,16 +14,21 @@
   <link rel="canonical" href="https://erikpuw.github.io/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/hero-light.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=puwbar1">
+  <link rel="stylesheet" href="styles.css?v=i18n1">
   <title>erikpuw | Phần mềm cho Windows</title>
   <script>
     try {
       const theme = localStorage.getItem('erikpuw-theme');
       if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
-    } catch { /* The system theme still works when storage is unavailable. */ }
+      const lang = localStorage.getItem('erikpuw-lang');
+      if (lang === 'vi' || lang === 'en') {
+        document.documentElement.dataset.lang = lang;
+        document.documentElement.lang = lang;
+      }
+    } catch { /* System defaults still work when storage is unavailable. */ }
   </script>
   <script src="releases.js" defer></script>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=i18n1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#projects">Đến các dự án</a>
@@ -31,7 +36,7 @@
     <header class="site-header">
       <a class="wordmark" href="./" aria-label="erikpuw, trang chủ">erikpuw</a>
       <nav class="nav-glass" aria-label="Điều hướng chính">
-        <a class="nav-projects" href="#projects">Dự án</a>
+        <button id="lang-toggle" class="nav-lang" type="button" aria-label="Chuyển sang tiếng Anh" title="Chuyển sang tiếng Anh" hidden><span class="lang-opt" data-lang-opt="vi">VI</span><span class="lang-sep" aria-hidden="true">/</span><span class="lang-opt" data-lang-opt="en">EN</span></button>
         <a class="nav-github" href="https://github.com/erikpuw" target="_blank" rel="noopener noreferrer"><span class="icon icon-github" aria-hidden="true"></span><span>GitHub</span></a>
         <span class="nav-divider" aria-hidden="true"></span>
         <button id="theme-toggle" class="icon-button theme-toggle" aria-label="Chuyển giao diện" title="Chuyển giao diện" hidden><span class="icon icon-sun" aria-hidden="true"></span><span class="icon icon-moon" aria-hidden="true"></span></button>
@@ -43,7 +48,7 @@
           <p class="eyebrow">Phần mềm cho Windows</p>
           <h1 id="hero-title">Một góc làm việc tốt hơn.</h1>
           <p class="hero-description">Trợ lý AI, âm nhạc và tiện ích Windows do erikpuw phát triển.</p>
-          <a class="button button-primary" href="#projects">Khám phá dự án<span class="icon icon-arrow-right" aria-hidden="true"></span></a>
+          <a class="button button-primary" href="#projects"><span id="hero-cta-label">Khám phá dự án</span><span class="icon icon-arrow-right" aria-hidden="true"></span></a>
         </div>
         <div class="hero-art" aria-hidden="true"><img class="artwork artwork-light" src="assets/hero-light.webp" alt="" width="1818" height="865" fetchpriority="high"><img class="artwork artwork-dark" src="assets/hero-dark.webp" alt="" width="1818" height="865" fetchpriority="high"></div>
       </section>
@@ -82,7 +87,7 @@
   <dialog id="project-dialog" class="project-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
     <button id="dialog-close" class="icon-button dialog-close" aria-label="Đóng chi tiết dự án"><span class="icon icon-x" aria-hidden="true"></span></button>
     <div id="dialog-art" class="dialog-art" aria-hidden="true"></div>
-    <div class="dialog-content"><span id="dialog-category" class="project-category"></span><h2 id="dialog-title" tabindex="-1" autofocus></h2><p id="dialog-description" class="dialog-description"></p><div id="dialog-details"></div><p id="dialog-download-status" class="download-status" role="status"></p><div class="dialog-actions"><a id="dialog-download" class="button button-primary" target="_blank" rel="noopener noreferrer" aria-disabled="true" tabindex="-1"><span class="icon icon-arrow-right icon-download" aria-hidden="true"></span><span id="dialog-download-label">Tải cho Windows</span></a><a id="dialog-repository" class="button button-secondary" href="https://github.com/erikpuw" target="_blank" rel="noopener noreferrer"><span class="icon icon-github" aria-hidden="true"></span>Xem trên GitHub<span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></div></div>
+    <div class="dialog-content"><span id="dialog-category" class="project-category"></span><h2 id="dialog-title" tabindex="-1" autofocus></h2><p id="dialog-description" class="dialog-description"></p><div id="dialog-details"></div><p id="dialog-download-status" class="download-status" role="status"></p><div class="dialog-actions"><a id="dialog-download" class="button button-primary" target="_blank" rel="noopener noreferrer" aria-disabled="true" tabindex="-1"><span class="icon icon-arrow-right icon-download" aria-hidden="true"></span><span id="dialog-download-label">Tải cho Windows</span></a><a id="dialog-repository" class="button button-secondary" href="https://github.com/erikpuw" target="_blank" rel="noopener noreferrer"><span class="icon icon-github" aria-hidden="true"></span><span id="dialog-repo-label">Xem trên GitHub</span><span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></div></div>
   </dialog>
   <template id="jarvis-details">
     <p>Trợ lý chạy trên Windows, kết nối mô hình ngôn ngữ cục bộ để trò chuyện, tra cứu và thực hiện tác vụ.</p>
