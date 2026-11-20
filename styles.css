@@ -100,7 +100,10 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-player, .project-toolkit, .project-puwdesk, .project-puwbar { grid-column: span 12; }
 .project-puwdesk .project-art { inset: .75rem .75rem .75rem 46%; }
 .project-puwdesk .artwork { object-fit: contain; }
-.project-puwbar .artwork { object-fit: cover; object-position: right center; }
+.project-puwbar .artwork, .project-puwvga .artwork { object-fit: cover; object-position: right center; }
+.project-puwvga { grid-column: span 24; min-height: clamp(260px, 24vw, 320px); }
+.project-puwvga .project-copy { padding: 2rem; }
+.project-puwvga .project-copy p { max-width: 40%; }
 .dialog-art:has(> img[src$="detail-puwdesk.webp"]) { background: var(--surface); }
 .dialog-art > img[src$="detail-puwdesk.webp"] { object-fit: contain; padding: 1rem; }
 .project-copy { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; min-height: inherit; padding: 1.65rem; }
@@ -193,6 +196,9 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .project-copy h3 { font-size: 1.65rem; }
   .project-copy p { max-width: 52%; font-size: .9rem; }
   .project-jarvis .project-copy p { max-width: 52%; }
+  .project-puwvga { min-height: 235px; }
+  .project-puwvga .project-copy { padding: 1.5rem; }
+  .project-puwvga .project-copy p { max-width: 52%; }
   .project-puwdesk { display: flex; flex-direction: column-reverse; min-height: 0; }
   .project-puwdesk .project-copy { min-height: 0; padding: 1.5rem 4.75rem .5rem 1.5rem; }
   .project-puwdesk .project-copy p { max-width: none; margin-bottom: 0; }

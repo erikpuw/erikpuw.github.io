@@ -23,7 +23,7 @@
   const copy = {
     vi: {
       title: 'erikpuw | Phần mềm cho Windows',
-      metaDescription: 'Các dự án Windows của erikpuw: JARVIS, PUW Notch, Puw Player, Lenovo Toolkit, puwdesk và PuwBar. Khám phá ứng dụng và mã nguồn trên GitHub.',
+      metaDescription: 'Các dự án Windows của erikpuw: JARVIS, PUW Notch, Puw Player, Lenovo Toolkit, puwdesk, PuwBar và PuwVGA. Khám phá ứng dụng và mã nguồn trên GitHub.',
       skipLink: 'Đến các dự án',
       wordmarkLabel: 'erikpuw, trang chủ',
       navLabel: 'Điều hướng chính',
@@ -67,14 +67,18 @@
         },
         puwbar: {
           category: 'Thanh taskbar',
-          description: 'Tùy biến giao diện thanh taskbar Windows gọn gàng và hiện đại.',
-          unreleased: 'Đang chuẩn bị đưa lên GitHub. Bản tải sẽ xuất hiện khi có trên GitHub Releases.',
+          description: 'Taskbar kính mờ nổi cho Windows 11, giữ nguyên mọi tính năng gốc.',
+        },
+        puwvga: {
+          category: 'Đồ họa / GPU',
+          description: 'Điều khiển toàn bộ VGA của 3 hãng lớn NVIDIA, AMD và Intel tại một nơi.',
+          unreleased: 'Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases.',
         },
       },
     },
     en: {
       title: 'erikpuw | Windows Software',
-      metaDescription: 'Windows software by erikpuw: JARVIS, PUW Notch, Puw Player, Lenovo Toolkit, puwdesk, and PuwBar. Explore apps and source code on GitHub.',
+      metaDescription: 'Windows software by erikpuw: JARVIS, PUW Notch, Puw Player, Lenovo Toolkit, puwdesk, PuwBar, and PuwVGA. Explore apps and source code on GitHub.',
       skipLink: 'Skip to projects',
       wordmarkLabel: 'erikpuw, home',
       navLabel: 'Main navigation',
@@ -153,9 +157,20 @@
         },
         puwbar: {
           category: 'Taskbar',
-          description: 'Customize your Windows taskbar with a cleaner, modern look.',
-          unreleased: 'Preparing to publish on GitHub. Downloads will appear once available on GitHub Releases.',
-          intro: 'A Windows utility that reimagines the taskbar with a cleaner, more modern aesthetic.',
+          description: 'Floating frosted glass taskbar for Windows 11, with native features intact.',
+          intro: 'Splits the Windows 11 taskbar into rounded frosted-glass pills for apps, the System Tray, and Widgets — built in Rust + C++/WinRT as a single puwbar.exe.',
+          features: [
+            'Real-time backdrop blur via Windows.UI.Composition while keeping Explorer, Start menu, tray animations, and window previews intact.',
+            'Adapts live across all 4 edges (Bottom / Top / Left / Right) and Left / Center alignment with VSync-locked 300ms slide animations.',
+            'Single ~870 KB executable (~1.2 MB idle RAM), Vietnamese–English tray menu, Start with Windows, and clean restore on exit (Ctrl+Alt+F12).',
+          ],
+          note: 'Built for Windows 11 (x64), no Windhawk or Visual C++ Redistributable needed. Disable any active Windhawk taskbar mod before running.',
+        },
+        puwvga: {
+          category: 'Graphics / GPU',
+          description: 'Control GPUs from all three major makers — NVIDIA, AMD, and Intel — in one place.',
+          unreleased: 'Preparing for release. Downloads will appear once published on GitHub Releases.',
+          intro: 'A unified Windows GPU control center built for graphics cards from all three major vendors: NVIDIA, AMD, and Intel.',
           note: 'This project is being prepared for GitHub. Full details and stable downloads will appear automatically once published on GitHub Releases.',
         },
       },
