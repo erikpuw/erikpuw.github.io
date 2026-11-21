@@ -14,7 +14,7 @@
   <link rel="canonical" href="https://erikpuw.github.io/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/hero-light.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=puwvga1">
+  <link rel="stylesheet" href="styles.css?v=filter1">
   <title>erikpuw | Phần mềm cho Windows</title>
   <script>
     try {
@@ -28,7 +28,7 @@
     } catch { /* System defaults still work when storage is unavailable. */ }
   </script>
   <script src="releases.js" defer></script>
-  <script src="app.js?v=puwvga1" defer></script>
+  <script src="app.js?v=filter1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#projects">Đến các dự án</a>
@@ -47,39 +47,48 @@
         <div class="hero-copy">
           <p class="eyebrow">Phần mềm cho Windows</p>
           <h1 id="hero-title">Một góc làm việc tốt hơn.</h1>
-          <p class="hero-description">Trợ lý AI, âm nhạc và tiện ích Windows do erikpuw phát triển.</p>
+          <p class="hero-description">AI, tùy biến Windows, giải trí và công cụ hệ thống do erikpuw phát triển.</p>
           <a class="button button-primary" href="#projects"><span id="hero-cta-label">Khám phá dự án</span><span class="icon icon-arrow-right" aria-hidden="true"></span></a>
         </div>
         <div class="hero-art" aria-hidden="true"><img class="artwork artwork-light" src="assets/hero-light.webp" alt="" width="1818" height="865" fetchpriority="high"><img class="artwork artwork-dark" src="assets/hero-dark.webp" alt="" width="1818" height="865" fetchpriority="high"></div>
       </section>
       <section class="projects" id="projects" aria-labelledby="projects-title">
-        <h2 id="projects-title">Dự án của tôi</h2>
-        <div class="project-grid">
-          <a class="project-card project-jarvis" data-project="jarvis" href="https://github.com/erikpuw/jarvis-windows" target="_blank" rel="noopener noreferrer" aria-labelledby="jarvis-title" aria-describedby="jarvis-description">
+        <div class="projects-head">
+          <h2 id="projects-title">Dự án của tôi</h2>
+          <div id="project-filters" class="filter-bar" role="group" aria-label="Phân loại dự án" hidden>
+            <button id="filter-all" class="filter-pill" type="button" data-filter="all" aria-pressed="true">Tất cả</button>
+            <button id="filter-ai" class="filter-pill" type="button" data-filter="ai" aria-pressed="false">AI</button>
+            <button id="filter-custom" class="filter-pill" type="button" data-filter="custom" aria-pressed="false">Custom Windows</button>
+            <button id="filter-entertainment" class="filter-pill" type="button" data-filter="entertainment" aria-pressed="false">Giải trí</button>
+            <button id="filter-tools" class="filter-pill" type="button" data-filter="tools" aria-pressed="false">Công cụ</button>
+          </div>
+        </div>
+        <div id="project-grid" class="project-grid">
+          <a class="project-card project-jarvis" data-project="jarvis" data-group="ai" href="https://github.com/erikpuw/jarvis-windows" target="_blank" rel="noopener noreferrer" aria-labelledby="jarvis-title" aria-describedby="jarvis-description">
             <div class="project-art art-jarvis" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="0" y="0" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="0" y="0" width="1860" height="846"/></svg></div>
             <div class="project-copy"><span class="project-mark icon icon-chat" aria-hidden="true"></span><span class="project-category">Trợ lý AI</span><h3 id="jarvis-title">JARVIS</h3><p id="jarvis-description">Trợ lý AI với giọng nói tiếng Việt.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>
-          <a class="project-card project-notch" data-project="notch" href="https://github.com/erikpuw/puw_notch" target="_blank" rel="noopener noreferrer" aria-labelledby="notch-title" aria-describedby="notch-description">
+          <a class="project-card project-notch" data-project="notch" data-group="custom" href="https://github.com/erikpuw/puw_notch" target="_blank" rel="noopener noreferrer" aria-labelledby="notch-title" aria-describedby="notch-description">
             <div class="project-art art-notch" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="-930" y="0" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="-930" y="0" width="1860" height="846"/></svg></div>
             <div class="project-copy"><span class="project-mark icon icon-notch" aria-hidden="true"></span><span class="project-category">Tiện ích desktop</span><h3 id="notch-title">PUW Notch</h3><p id="notch-description">Nhạc và tiện ích ngay trên desktop.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>
-          <a class="project-card project-player" data-project="player" href="https://github.com/erikpuw/puw-player" target="_blank" rel="noopener noreferrer" aria-labelledby="player-title" aria-describedby="player-description">
+          <a class="project-card project-player" data-project="player" data-group="entertainment" href="https://github.com/erikpuw/puw-player" target="_blank" rel="noopener noreferrer" aria-labelledby="player-title" aria-describedby="player-description">
             <div class="project-art art-player" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="0" y="-423" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="0" y="-423" width="1860" height="846"/></svg></div>
             <div class="project-copy"><span class="project-mark icon icon-music" aria-hidden="true"></span><span class="project-category">Âm nhạc</span><h3 id="player-title">Puw Player</h3><p id="player-description">Nghe nhạc offline, lời chạy theo bài.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>
-          <a class="project-card project-toolkit" data-project="toolkit" href="https://github.com/erikpuw/lenovo-toolkit" target="_blank" rel="noopener noreferrer" aria-labelledby="toolkit-title" aria-describedby="toolkit-description">
+          <a class="project-card project-toolkit" data-project="toolkit" data-group="tools" href="https://github.com/erikpuw/lenovo-toolkit" target="_blank" rel="noopener noreferrer" aria-labelledby="toolkit-title" aria-describedby="toolkit-description">
             <div class="project-art art-toolkit" aria-hidden="true"><svg class="artwork artwork-light" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-light.webp" x="-930" y="-423" width="1860" height="846"/></svg><svg class="artwork artwork-dark" viewBox="0 0 930 423" preserveAspectRatio="xMidYMid slice" focusable="false"><image href="assets/cards-dark.webp" x="-930" y="-423" width="1860" height="846"/></svg></div>
             <div class="project-copy"><span class="project-mark icon icon-laptop" aria-hidden="true"></span><span class="project-category">Phần cứng</span><h3 id="toolkit-title">Lenovo Toolkit</h3><p id="toolkit-description">Nguồn, quạt và pin cho laptop Lenovo.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>
-          <a class="project-card project-puwdesk" data-project="puwdesk" data-unreleased-message="Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases." href="https://github.com/erikpuw/puwdesk" target="_blank" rel="noopener noreferrer" aria-labelledby="puwdesk-title" aria-describedby="puwdesk-description">
+          <a class="project-card project-puwdesk" data-project="puwdesk" data-group="custom" data-unreleased-message="Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases." href="https://github.com/erikpuw/puwdesk" target="_blank" rel="noopener noreferrer" aria-labelledby="puwdesk-title" aria-describedby="puwdesk-description">
             <div class="project-art" aria-hidden="true"><img class="artwork" src="assets/detail-puwdesk.webp" alt="" width="1686" height="933" loading="lazy" decoding="async"></div>
             <div class="project-copy"><svg class="project-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="project-category">Hình nền động</span><h3 id="puwdesk-title">puwdesk</h3><p id="puwdesk-description">Desktop của bạn sẽ là nơi trải nghiệm thư giãn</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>
-          <a class="project-card project-puwbar" data-project="puwbar" href="https://github.com/erikpuw/puwbar" target="_blank" rel="noopener noreferrer" aria-labelledby="puwbar-title" aria-describedby="puwbar-description">
+          <a class="project-card project-puwbar" data-project="puwbar" data-group="custom" href="https://github.com/erikpuw/puwbar" target="_blank" rel="noopener noreferrer" aria-labelledby="puwbar-title" aria-describedby="puwbar-description">
             <div class="project-art art-puwbar" aria-hidden="true"><img class="artwork artwork-light" src="assets/card-puwbar-light.webp" alt="" width="930" height="423" loading="lazy" decoding="async"><img class="artwork artwork-dark" src="assets/card-puwbar-dark.webp" alt="" width="930" height="423" loading="lazy" decoding="async"></div>
             <div class="project-copy"><svg class="project-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="13.5" width="19" height="6.5" rx="3.25"/><rect x="6" y="15.5" width="2.5" height="2.5" rx=".75" fill="currentColor" stroke="none"/><rect x="10.75" y="15.5" width="2.5" height="2.5" rx=".75" fill="currentColor" stroke="none"/><rect x="15.5" y="15.5" width="2.5" height="2.5" rx=".75" fill="currentColor" stroke="none"/></svg><span class="project-category">Thanh taskbar</span><h3 id="puwbar-title">PuwBar</h3><p id="puwbar-description">Taskbar kính mờ nổi cho Windows 11, giữ nguyên mọi tính năng gốc.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>
-          <a class="project-card project-puwvga" data-project="puwvga" data-unreleased-message="Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases." href="https://github.com/erikpuw/puwvga" target="_blank" rel="noopener noreferrer" aria-labelledby="puwvga-title" aria-describedby="puwvga-description">
+          <a class="project-card project-puwvga" data-project="puwvga" data-group="tools" data-unreleased-message="Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases." href="https://github.com/erikpuw/puwvga" target="_blank" rel="noopener noreferrer" aria-labelledby="puwvga-title" aria-describedby="puwvga-description">
             <div class="project-art art-puwvga" aria-hidden="true"><img class="artwork artwork-light" src="assets/card-puwvga-light.webp" alt="" width="1200" height="546" loading="lazy" decoding="async"><img class="artwork artwork-dark" src="assets/card-puwvga-dark.webp" alt="" width="1200" height="546" loading="lazy" decoding="async"></div>
             <div class="project-copy"><svg class="project-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="15.5" cy="12" r="3"/><path d="M6 10h4M6 14h4"/></svg><span class="project-category">Đồ họa / GPU</span><h3 id="puwvga-title">PuwVGA</h3><p id="puwvga-description">Điều khiển toàn bộ VGA của 3 hãng lớn NVIDIA, AMD và Intel tại một nơi.</p><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span></div>
           </a>

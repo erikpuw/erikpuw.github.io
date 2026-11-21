@@ -2,6 +2,10 @@
   const root = document.documentElement;
   const themeButton = document.querySelector('#theme-toggle');
   const langButton = document.querySelector('#lang-toggle');
+  const filterBar = document.querySelector('#project-filters');
+  const projectGrid = document.querySelector('#project-grid');
+  const filterIds = ['all', 'ai', 'custom', 'entertainment', 'tools'];
+  let activeFilter = 'all';
   const systemTheme = matchMedia('(prefers-color-scheme: dark)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const dialog = document.querySelector('#project-dialog');
@@ -32,9 +36,17 @@
       toDark: 'Chuyển sang giao diện tối',
       eyebrow: 'Phần mềm cho Windows',
       heroTitle: 'Một góc làm việc tốt hơn.',
-      heroDescription: 'Trợ lý AI, âm nhạc và tiện ích Windows do erikpuw phát triển.',
+      heroDescription: 'AI, tùy biến Windows, giải trí và công cụ hệ thống do erikpuw phát triển.',
       heroCta: 'Khám phá dự án',
       projectsTitle: 'Dự án của tôi',
+      filterLabel: 'Phân loại dự án',
+      filters: {
+        all: 'Tất cả',
+        ai: 'AI',
+        custom: 'Custom Windows',
+        entertainment: 'Giải trí',
+        tools: 'Công cụ',
+      },
       dialogClose: 'Đóng chi tiết dự án',
       downloadWin: 'Tải cho Windows',
       viewReleases: 'Xem Releases',
@@ -87,9 +99,17 @@
       toDark: 'Switch to dark theme',
       eyebrow: 'Windows Software',
       heroTitle: 'A better workspace.',
-      heroDescription: 'AI assistant, music, and Windows utilities crafted by erikpuw.',
+      heroDescription: 'AI, Windows customization, entertainment, and system tools crafted by erikpuw.',
       heroCta: 'Explore projects',
       projectsTitle: 'My projects',
+      filterLabel: 'Filter projects by category',
+      filters: {
+        all: 'All',
+        ai: 'AI',
+        custom: 'Custom Windows',
+        entertainment: 'Entertainment',
+        tools: 'Tools',
+      },
       dialogClose: 'Close project details',
       downloadWin: 'Download for Windows',
       viewReleases: 'View Releases',
@@ -252,6 +272,8 @@
     setText('.hero-description', t.heroDescription);
     setText('#hero-cta-label', t.heroCta);
     setText('#projects-title', t.projectsTitle);
+    setAttr('#project-filters', 'aria-label', t.filterLabel);
+    for (const key of filterIds) setText(`#filter-${key}`, t.filters[key]);
     setAttr('#dialog-close', 'aria-label', t.dialogClose);
     setText('#dialog-repo-label', t.viewGithub);
     projectCards.forEach(card => {
@@ -269,6 +291,35 @@
       const details = buildProjectDetails(activeCard.dataset.project);
       if (details) document.querySelector('#dialog-details').replaceChildren(...details);
       updateDownload(activeCard);
+    }
+  }
+  function applyFilter(next) {
+    activeFilter = filterIds.includes(next) ? next : 'all';
+    let visible = 0;
+    projectCards.forEach(card => {
+      const match = activeFilter === 'all' || card.dataset.group === activeFilter;
+      card.hidden = !match;
+      if (match) visible += 1;
+    });
+    if (projectGrid) {
+      if (activeFilter === 'all') {
+        delete projectGrid.dataset.filtered;
+        delete projectGrid.dataset.count;
+      } else {
+        projectGrid.dataset.filtered = 'true';
+        projectGrid.dataset.count = String(visible);
+      }
+    }
+    for (const key of filterIds) {
+      const btn = document.querySelector(`#filter-${key}`);
+      if (btn) btn.setAttribute('aria-pressed', String(key === activeFilter));
+    }
+  }
+  if (filterBar) {
+    filterBar.hidden = false;
+    for (const key of filterIds) {
+      const btn = document.querySelector(`#filter-${key}`);
+      if (btn) btn.addEventListener('click', () => applyFilter(key));
     }
   }
   themeButton.hidden = false;
