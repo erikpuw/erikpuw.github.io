@@ -2,7 +2,7 @@
 
 **Tiếng Việt** · [English](README.en.md)
 
-Nơi tổng hợp các phần mềm Windows của erikpuw, do người Việt Nam làm.
+Phần mềm Windows của erikpuw, do người Việt Nam phát triển.
 
 Mời bạn ghé [erikpuw.github.io](https://erikpuw.github.io/) để xem danh sách dự án, bản phát hành mới nhất và tải trực tiếp từ GitHub Releases.
 
