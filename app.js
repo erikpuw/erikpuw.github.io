@@ -293,35 +293,67 @@
     const themeMeta = document.querySelector('meta[name="theme-color"]');
     if (themeMeta) themeMeta.content = getComputedStyle(root).getPropertyValue('--page').trim();
   }
+  const CACHE_TTL = 15 * 60 * 1000;
+  function readStoredCache(key) {
+    try {
+      const raw = localStorage.getItem?.(key);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed.ts !== 'number' || Date.now() - parsed.ts > CACHE_TTL) return null;
+      return parsed.data;
+    } catch { return null; }
+  }
+  function writeStoredCache(key, data) {
+    try { localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data })); } catch { /* Ignore storage quota errors. */ }
+  }
+  function getFallbackRelease(card) {
+    if (card.dataset.fallbackVersion) return { status: 'manual', version: card.dataset.fallbackVersion };
+    if (card.dataset.fallbackStatus === 'unreleased') return { status: 'unreleased' };
+    return null;
+  }
   function renderCardVersion(card, release) {
     const badge = card.querySelector('.card-version');
-    if (!badge || !release) return;
-    if (release.version) {
-      badge.textContent = release.version;
+    if (!badge) return;
+    const effective = (release && release.status !== 'unavailable') ? release : getFallbackRelease(card);
+    if (!effective) return;
+    if (effective.version) {
+      badge.textContent = effective.version;
       badge.dataset.state = 'released';
       badge.hidden = false;
-    } else if (release.status === 'unreleased') {
+    } else if (effective.status === 'unreleased') {
       badge.textContent = getStrings().comingSoon;
       badge.dataset.state = 'unreleased';
       badge.hidden = false;
-    } else {
-      badge.hidden = true;
     }
   }
   async function loadCardVersion(card) {
     const id = card.dataset.project;
-    if (!id || releaseCache.has(id)) {
+    if (!id) return;
+    if (releaseCache.has(id)) {
       renderCardVersion(card, releaseCache.get(id));
+      return;
+    }
+    const stored = readStoredCache(`erikpuw-rel-${id}`);
+    if (stored) {
+      releaseCache.set(id, stored);
+      renderCardVersion(card, stored);
       return;
     }
     releaseCache.set(id, null);
     try {
       const repo = new URL(card.href).pathname.split('/').pop();
       const release = await resolveLatestRelease(repo);
-      releaseCache.set(id, release);
-      renderCardVersion(card, release);
+      if (release && release.status !== 'unavailable') {
+        releaseCache.set(id, release);
+        writeStoredCache(`erikpuw-rel-${id}`, release);
+        renderCardVersion(card, release);
+      } else {
+        releaseCache.delete(id);
+        renderCardVersion(card, null);
+      }
     } catch {
       releaseCache.delete(id);
+      renderCardVersion(card, null);
     }
   }
   function syncLang() {
@@ -534,7 +566,10 @@
     status.textContent = t.checkingRelease;
     const repo = new URL(card.href).pathname.split('/').pop();
     const release = await resolveLatestRelease(repo);
-    releaseCache.set(card.dataset.project, release);
+    if (release && release.status !== 'unavailable') {
+      releaseCache.set(card.dataset.project, release);
+      writeStoredCache(`erikpuw-rel-${card.dataset.project}`, release);
+    }
     renderCardVersion(card, release);
     if (activeCard !== card || request !== downloadRequest) return;
     syncUnreleasedNote(release);
@@ -682,15 +717,20 @@
     const known = new Set(['erikpuw', 'erikpuw.github.io', ...projectCards.map(c => {
       try { return new URL(c.href).pathname.split('/').pop().toLowerCase(); } catch { return ''; }
     })]);
-    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const cachedRepos = readStoredCache('erikpuw-repos-v1');
+    const controller = !cachedRepos && typeof AbortController === 'function' ? new AbortController() : null;
     const timer = controller ? setTimeout(() => controller.abort(), 8000) : null;
     try {
-      const res = await fetch('https://api.github.com/users/erikpuw/repos?sort=updated&per_page=30', {
-        headers: { Accept: 'application/vnd.github+json' },
-        signal: controller?.signal,
-      });
-      if (!res.ok) return;
-      const repos = await res.json();
+      let repos = cachedRepos;
+      if (!repos) {
+        const res = await fetch('https://api.github.com/users/erikpuw/repos?sort=updated&per_page=30', {
+          headers: { Accept: 'application/vnd.github+json' },
+          signal: controller?.signal,
+        });
+        if (!res.ok) return;
+        repos = await res.json();
+        if (Array.isArray(repos)) writeStoredCache('erikpuw-repos-v1', repos);
+      }
       if (!Array.isArray(repos)) return;
       let added = false;
       for (const repo of repos) {
