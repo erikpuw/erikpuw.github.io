@@ -240,14 +240,14 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .project-copy p { max-width: 52%; font-size: .9rem; }
   .project-jarvis .project-copy p { max-width: 52%; }
   .card-foot { max-width: 62%; gap: .4rem; }
-  .project-puwdesk, .project-puwbar, .project-puwvga { display: flex; flex-direction: column-reverse; min-height: 0; }
-  .project-puwdesk .project-copy, .project-puwbar .project-copy, .project-puwvga .project-copy { min-height: 0; padding: 1.5rem 4.75rem .75rem 1.5rem; }
-  .project-puwdesk .project-copy p, .project-puwbar .project-copy p, .project-puwvga .project-copy p { max-width: none; margin-bottom: 0; }
-  .project-puwdesk .card-foot, .project-puwbar .card-foot, .project-puwvga .card-foot { margin-top: .75rem; max-width: none; }
-  .project-puwdesk .card-arrow, .project-puwbar .card-arrow, .project-puwvga .card-arrow { position: absolute; top: 1.5rem; right: 1.25rem; margin: 0; }
+  .project-puwbar .project-art, .project-puwvga .project-art { inset: 0 -18% 0 24%; mask-image: linear-gradient(to right, transparent 0%, #000 32%); -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 32%); }
+  .project-puwbar .artwork, .project-puwvga .artwork { object-fit: cover; object-position: right center; }
+  .project-puwdesk { display: flex; flex-direction: column-reverse; min-height: 0; }
+  .project-puwdesk .project-copy { min-height: 0; padding: 1.5rem 4.75rem .75rem 1.5rem; }
+  .project-puwdesk .project-copy p { max-width: none; margin-bottom: 0; }
+  .project-puwdesk .card-foot { margin-top: .75rem; max-width: none; }
+  .project-puwdesk .card-arrow { position: absolute; top: 1.5rem; right: 1.25rem; margin: 0; }
   .project-puwdesk .project-art { position: relative; inset: auto; height: 190px; margin: 0 .75rem .75rem; }
-  .project-puwbar .project-art, .project-puwvga .project-art { position: relative; inset: auto; height: 185px; margin: 0; }
-  .project-puwbar .artwork, .project-puwvga .artwork { object-fit: cover; object-position: 80% center; }
   .project-mark { width: 1.6rem; height: 1.6rem; }
   .project-dialog { width: calc(100% - 1.5rem); max-height: calc(100dvh - 1.5rem); }
   .project-dialog[open] { grid-template-columns: minmax(0, 1fr); align-content: start; }
