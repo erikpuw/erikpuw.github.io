@@ -2,10 +2,10 @@
 
 **Tiếng Việt** · [English](README.en.md)
 
-Trang giới thiệu các phần mềm Windows do erikpuw phát triển.
+Nơi tổng hợp các phần mềm Windows của erikpuw, do người Việt làm.
 
-Ghé thăm website tại [erikpuw.github.io](https://erikpuw.github.io/) để xem danh sách dự án, phiên bản phát hành mới nhất và tải về trực tiếp từ GitHub Releases.
+Mời bạn ghé [erikpuw.github.io](https://erikpuw.github.io/) để xem danh sách dự án, bản phát hành mới nhất và tải trực tiếp từ GitHub Releases.
 
 ## Bản quyền
 
-Bản quyền © 2026 erikpuw. Bảo lưu mọi quyền. Xem chi tiết tại [LICENSE](LICENSE).
+© 2026 erikpuw. Bảo lưu mọi quyền. Chi tiết trong [LICENSE](LICENSE).
