@@ -19,6 +19,7 @@
   const dismissEase = motionTokens.getPropertyValue('--ease-dismiss').trim();
   const reveals = new Map();
   const artworkCache = new Map();
+  const releaseCache = new Map();
   let revealObserver = null;
   let dialogAnimation = null;
   let activeCard = null;
@@ -53,6 +54,7 @@
       viewReleases: 'Xem Releases',
       viewGithub: 'Xem trên GitHub',
       checkingRelease: 'Đang tìm bản phát hành mới nhất...',
+      comingSoon: 'Sắp ra mắt',
       unreleasedDefault: 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.',
       manualRelease: version => `${version}. Chọn tệp phù hợp trong Releases.`,
       unavailableRelease: 'Không kiểm tra được bản tải mới nhất. Mở Releases để xem các bản phát hành.',
@@ -117,6 +119,7 @@
       viewReleases: 'View Releases',
       viewGithub: 'View on GitHub',
       checkingRelease: 'Checking for the latest release...',
+      comingSoon: 'Coming soon',
       unreleasedDefault: 'No release available yet. Check installation instructions on GitHub.',
       manualRelease: version => `${version}. Choose the right package in Releases.`,
       unavailableRelease: 'Could not check the latest download. Open Releases to view available builds.',
@@ -253,6 +256,37 @@
     const themeMeta = document.querySelector('meta[name="theme-color"]');
     if (themeMeta) themeMeta.content = getComputedStyle(root).getPropertyValue('--page').trim();
   }
+  function renderCardVersion(card, release) {
+    const badge = card.querySelector('.card-version');
+    if (!badge || !release) return;
+    if (release.version) {
+      badge.textContent = release.version;
+      badge.dataset.state = 'released';
+      badge.hidden = false;
+    } else if (release.status === 'unreleased') {
+      badge.textContent = getStrings().comingSoon;
+      badge.dataset.state = 'unreleased';
+      badge.hidden = false;
+    } else {
+      badge.hidden = true;
+    }
+  }
+  async function loadCardVersion(card) {
+    const id = card.dataset.project;
+    if (!id || releaseCache.has(id)) {
+      renderCardVersion(card, releaseCache.get(id));
+      return;
+    }
+    releaseCache.set(id, null);
+    try {
+      const repo = new URL(card.href).pathname.split('/').pop();
+      const release = await resolveLatestRelease(repo);
+      releaseCache.set(id, release);
+      renderCardVersion(card, release);
+    } catch {
+      releaseCache.delete(id);
+    }
+  }
   function syncLang() {
     const lang = getLang();
     const t = copy[lang];
@@ -286,6 +320,7 @@
       const desc = card.querySelector('p');
       if (cat) cat.textContent = info.category;
       if (desc) desc.textContent = info.description;
+      renderCardVersion(card, releaseCache.get(card.dataset.project));
     });
     syncTheme();
     if (activeCard && dialog.open) {
@@ -369,6 +404,7 @@
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         getProjectArtwork(entry.target, 'low');
+        loadCardVersion(entry.target);
         imageObserver.unobserve(entry.target);
       }
     }, { rootMargin: '240px 0px' });
@@ -460,6 +496,8 @@
     status.textContent = t.checkingRelease;
     const repo = new URL(card.href).pathname.split('/').pop();
     const release = await resolveLatestRelease(repo);
+    releaseCache.set(card.dataset.project, release);
+    renderCardVersion(card, release);
     if (activeCard !== card || request !== downloadRequest) return;
     const current = getStrings();
     download.removeAttribute('aria-busy');

@@ -129,8 +129,13 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-copy h3 { margin: 0 0 .4rem; font-size: clamp(1.5rem, 2.25vw, 1.85rem); font-weight: 700; letter-spacing: -.045em; line-height: 1.2; }
 .project-copy p { font-size: .92rem; line-height: 1.45; max-width: 48%; margin: 0 0 1rem; text-wrap: pretty; }
 .project-jarvis .project-copy p { max-width: 52%; }
-.card-arrow { margin-top: auto; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: rgb(255 255 255 / 28%); border: 1px solid rgb(128 136 148 / 20%); box-shadow: 0 2px 6px var(--shadow); }
-.project-jarvis .card-arrow { background: rgb(255 255 255 / 12%); }
+.card-foot { margin-top: auto; display: inline-flex; align-items: center; gap: .55rem; max-width: 100%; }
+.card-arrow { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: rgb(255 255 255 / 28%); border: 1px solid rgb(128 136 148 / 20%); box-shadow: 0 2px 6px var(--shadow); flex: 0 0 auto; }
+.card-version { display: inline-flex; align-items: center; min-height: 30px; padding: .25rem .72rem; border-radius: 999px; background: rgb(255 255 255 / 28%); border: 1px solid rgb(128 136 148 / 20%); box-shadow: 0 2px 6px var(--shadow); backdrop-filter: blur(12px); font-size: .76rem; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: .01em; white-space: nowrap; color: var(--ink); }
+.card-version[hidden] { display: none; }
+.card-version[data-state="unreleased"] { color: var(--muted); }
+.project-jarvis .card-arrow, .project-jarvis .card-version { background: rgb(255 255 255 / 12%); color: #f5f6f8; }
+.project-jarvis .card-version[data-state="unreleased"] { color: rgb(245 246 248 / 72%); }
 .project-art { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
 .project-art .artwork { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
 .site-footer { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .75rem 1rem; padding-block: 1rem 1.75rem; color: var(--muted); font-size: .85rem; }
@@ -219,8 +224,9 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   .project-puwvga .project-copy { padding: 1.5rem; }
   .project-puwvga .project-copy p { max-width: 52%; }
   .project-puwdesk { display: flex; flex-direction: column-reverse; min-height: 0; }
-  .project-puwdesk .project-copy { min-height: 0; padding: 1.5rem 4.75rem .5rem 1.5rem; }
+  .project-puwdesk .project-copy { min-height: 0; padding: 1.5rem 4.75rem .75rem 1.5rem; }
   .project-puwdesk .project-copy p { max-width: none; margin-bottom: 0; }
+  .project-puwdesk .card-foot { margin-top: .65rem; }
   .project-puwdesk .card-arrow { position: absolute; top: 1.5rem; right: 1.25rem; margin: 0; }
   .project-puwdesk .project-art { position: relative; inset: auto; height: 190px; margin: 0 .75rem .75rem; }
   .project-mark { width: 1.6rem; height: 1.6rem; }
@@ -243,11 +249,11 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .nav-glass, .filter-bar { background: var(--dialog); backdrop-filter: none; }
+  .nav-glass, .filter-bar, .card-version { background: var(--dialog); backdrop-filter: none; }
   .project-dialog::backdrop { background: rgb(10 13 17 / 85%); backdrop-filter: none; }
 }
 @media (prefers-contrast: more) {
-  .nav-glass, .filter-bar { background: var(--dialog); backdrop-filter: none; border-color: var(--ink); }
+  .nav-glass, .filter-bar, .card-version { background: var(--dialog); backdrop-filter: none; border-color: var(--ink); }
   .project-card, .project-dialog { border-color: var(--ink); }
   .project-copy p { background: var(--dialog); color: var(--ink); padding: .2rem; border-radius: 4px; }
 }
