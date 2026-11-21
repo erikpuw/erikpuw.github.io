@@ -38,7 +38,7 @@
       eyebrow: 'Phần mềm cho Windows',
       heroTitle: 'Một góc làm việc tốt hơn.',
       heroDescription: 'AI, tùy biến Windows, giải trí và công cụ hệ thống của erikpuw.',
-      heroOrigin: 'Sản phẩm phần mềm do người Việt làm.',
+      heroOrigin: 'Sản phẩm phần mềm do người Việt Nam làm.',
       heroCta: 'Khám phá dự án',
       projectsTitle: 'Dự án của tôi',
       footerCopy: '© 2026 erikpuw. Bảo lưu mọi quyền.',
