@@ -112,7 +112,12 @@ h2 { font-size: clamp(1.6rem, 2.4vw, 2rem); font-weight: 700; letter-spacing: -.
 .project-grid[data-filtered="true"][data-count="3"] .project-puwbar { grid-column: span 24; min-height: clamp(260px, 24vw, 320px); }
 .project-jarvis { grid-column: span 13; background: #151c24; color: #f5f6f8; border-color: #36404c; }
 .project-notch { grid-column: span 11; }
-.project-player, .project-toolkit, .project-puwdesk, .project-puwbar { grid-column: span 12; }
+.project-player, .project-toolkit, .project-puwdesk, .project-puwbar, .project-auto { grid-column: span 12; }
+.project-auto .project-copy p, .project-auto .card-foot { max-width: 100%; }
+.project-auto .project-art { background: radial-gradient(circle at 86% 24%, rgb(20 91 229 / 14%), transparent 56%); }
+.dialog-art.dialog-art-auto { display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 35%, rgb(27 96 230 / 26%), var(--dialog) 72%); color: var(--muted); }
+.dialog-art.dialog-art-auto .icon-github { width: 4rem; height: 4rem; opacity: .75; }
+#dialog-details .detail-note[hidden] { display: none; }
 .project-puwdesk .project-art { inset: .75rem .75rem .75rem 46%; }
 .project-puwdesk .artwork { object-fit: contain; }
 .project-puwbar .artwork, .project-puwvga .artwork { object-fit: cover; object-position: right center; }

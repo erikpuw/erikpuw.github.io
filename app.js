@@ -56,6 +56,8 @@
       viewGithub: 'Xem trên GitHub',
       checkingRelease: 'Đang tìm bản phát hành mới nhất...',
       comingSoon: 'Sắp ra mắt',
+      autoProjectFallback: 'Dự án Windows mới trên GitHub của erikpuw.',
+      autoUnreleasedNote: 'Dự án đang được chuẩn bị phát hành. Thông tin chi tiết và bản tải ổn định sẽ tự động cập nhật khi có trên GitHub Releases.',
       unreleasedDefault: 'Chưa có bản phát hành để tải. Xem hướng dẫn cài đặt trên GitHub.',
       manualRelease: version => `${version}. Chọn tệp phù hợp trong Releases.`,
       unavailableRelease: 'Không kiểm tra được bản tải mới nhất. Mở Releases để xem các bản phát hành.',
@@ -88,7 +90,6 @@
         puwvga: {
           category: 'Đồ họa / GPU',
           description: 'Điều khiển toàn bộ VGA của 3 hãng lớn NVIDIA, AMD và Intel tại một nơi.',
-          unreleased: 'Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases.',
         },
       },
     },
@@ -122,6 +123,8 @@
       viewGithub: 'View on GitHub',
       checkingRelease: 'Checking for the latest release...',
       comingSoon: 'Coming soon',
+      autoProjectFallback: 'New Windows project by erikpuw on GitHub.',
+      autoUnreleasedNote: 'This project is being prepared for release. Stable downloads will appear automatically once published on GitHub Releases.',
       unreleasedDefault: 'No release available yet. Check installation instructions on GitHub.',
       manualRelease: version => `${version}. Choose the right package in Releases.`,
       unavailableRelease: 'Could not check the latest download. Open Releases to view available builds.',
@@ -180,7 +183,8 @@
             'Automatically pauses when covered by maximized or fullscreen windows, lock screen, or display off.',
             'Vietnamese–English settings, reduced-motion support, and start with Windows.',
           ],
-          note: 'The download button automatically checks for the latest stable GitHub Release and stays inactive until published.',
+          note: 'Preparing for release on GitHub. The download button will activate automatically once published on GitHub Releases.',
+          noteUnreleasedOnly: true,
         },
         puwbar: {
           category: 'Taskbar',
@@ -196,9 +200,13 @@
         puwvga: {
           category: 'Graphics / GPU',
           description: 'Control GPUs from all three major makers — NVIDIA, AMD, and Intel — in one place.',
-          unreleased: 'Preparing for release. Downloads will appear once published on GitHub Releases.',
-          intro: 'A unified Windows GPU control center built for graphics cards from all three major vendors: NVIDIA, AMD, and Intel.',
-          note: 'This project is being prepared for GitHub. Full details and stable downloads will appear automatically once published on GitHub Releases.',
+          intro: 'Unified GPU configuration control panel for Windows 10 and Windows 11, supporting Intel, NVIDIA, and AMD adapters in a single Rust executable.',
+          features: [
+            'Detects every GPU on single-GPU desktops and dual-GPU laptops, mapping each active display to its driving adapter.',
+            'Adjusts brightness, contrast, gamma, Digital Vibrance / Saturation, hue, output color depth, VRR / G-SYNC / FreeSync, and MUX / Optimus modes.',
+            'Configures vendor-native 3D and Video settings directly through driver libraries (ControlLib, nvapi64, atiadlxx) with no WebView or background service.',
+          ],
+          note: 'Available in both installer (setup) and portable builds for Windows x64 on GitHub Releases.',
         },
       },
     },
@@ -218,7 +226,29 @@
     const el = document.querySelector(selector);
     if (el) el.setAttribute(attr, value);
   }
+  const autoProjects = new Map();
+  function syncUnreleasedNote(release) {
+    const details = document.querySelector('#dialog-details');
+    if (!details) return;
+    const note = typeof details.querySelector === 'function'
+      ? details.querySelector('[data-unreleased-note]')
+      : null;
+    if (note) note.hidden = release.status !== 'unreleased';
+  }
   function buildProjectDetails(id) {
+    const auto = autoProjects.get(id);
+    if (auto) {
+      const t = getStrings();
+      const intro = document.createElement('p');
+      intro.textContent = auto.description || t.autoProjectFallback;
+      const note = document.createElement('p');
+      note.className = 'detail-note';
+      note.dataset.unreleasedNote = 'true';
+      note.textContent = t.autoUnreleasedNote;
+      const cached = releaseCache.get(id);
+      if (cached && cached.status !== 'unreleased') note.hidden = true;
+      return [intro, note];
+    }
     const lang = getLang();
     if (lang === 'en') {
       const info = copy.en.projects[id];
@@ -240,6 +270,11 @@
         if (info.note) {
           const note = document.createElement('p');
           note.className = 'detail-note';
+          if (info.noteUnreleasedOnly) {
+            note.dataset.unreleasedNote = 'true';
+            const cached = releaseCache.get(id);
+            if (cached && cached.status !== 'unreleased') note.hidden = true;
+          }
           note.textContent = info.note;
           nodes.push(note);
         }
@@ -502,6 +537,7 @@
     releaseCache.set(card.dataset.project, release);
     renderCardVersion(card, release);
     if (activeCard !== card || request !== downloadRequest) return;
+    syncUnreleasedNote(release);
     const current = getStrings();
     download.removeAttribute('aria-busy');
     if (release.status === 'unreleased') {
@@ -537,8 +573,18 @@
       dialogLangs.replaceChildren(...Array.from(cardLangs.children || []).map(node => node.cloneNode(true)));
     }
     document.querySelector('#dialog-repository').href = card.href;
-    const art = getProjectArtwork(card, 'high');
-    document.querySelector('#dialog-art').replaceChildren(art);
+    const dialogArt = document.querySelector('#dialog-art');
+    if (autoProjects.has(card.dataset.project)) {
+      dialogArt.classList.add('dialog-art-auto');
+      const mark = document.createElement('span');
+      mark.className = 'icon icon-github';
+      mark.setAttribute('aria-hidden', 'true');
+      dialogArt.replaceChildren(mark);
+    } else {
+      dialogArt.classList.remove('dialog-art-auto');
+      const art = getProjectArtwork(card, 'high');
+      dialogArt.replaceChildren(art);
+    }
     document.querySelector('#dialog-details').replaceChildren(...details);
     updateDownload(card);
     animateDialog(() => {
@@ -557,14 +603,114 @@
       card.focus({ preventScroll: true });
     }, 'close');
   }
-  projectCards.forEach(card => {
+  function bindCardInteractions(card) {
     card.addEventListener('click', event => {
       if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
       openProject(card);
     });
     card.setAttribute('aria-haspopup', 'dialog');
-  });
+  }
+  projectCards.forEach(bindCardInteractions);
+  const langIconMap = { rust: 'rust', python: 'python', dart: 'dart', typescript: 'ts', slint: 'slint', 'c++': 'cpp' };
+  function inferRepoGroup(repo) {
+    const text = `${repo.name} ${repo.description || ''} ${(repo.topics || []).join(' ')}`.toLowerCase();
+    if (/\b(ai|llm|voice|assistant|jarvis|chat)\b/.test(text)) return 'ai';
+    if (/\b(music|player|audio|video|media|game)\b/.test(text)) return 'entertainment';
+    if (/\b(taskbar|notch|desktop|wallpaper|bar|theme|dock|custom)\b/.test(text)) return 'custom';
+    return 'tools';
+  }
+  function createAutoProjectCard(repo) {
+    const slug = repo.name.toLowerCase();
+    const group = inferRepoGroup(repo);
+    autoProjects.set(slug, { name: repo.name, description: repo.description || '', group });
+    const card = document.createElement('a');
+    card.className = 'project-card project-auto';
+    card.dataset.project = slug;
+    card.dataset.group = group;
+    card.href = repo.html_url;
+    card.target = '_blank';
+    card.rel = 'noopener noreferrer';
+    const art = document.createElement('div');
+    art.className = 'project-art';
+    art.setAttribute('aria-hidden', 'true');
+    const copyWrap = document.createElement('div');
+    copyWrap.className = 'project-copy';
+    const mark = document.createElement('span');
+    mark.className = 'project-mark icon icon-github';
+    mark.setAttribute('aria-hidden', 'true');
+    const cat = document.createElement('span');
+    cat.className = 'project-category';
+    cat.textContent = getStrings().filters[group];
+    const h3 = document.createElement('h3');
+    h3.textContent = repo.name;
+    const p = document.createElement('p');
+    p.textContent = repo.description || getStrings().autoProjectFallback;
+    const foot = document.createElement('span');
+    foot.className = 'card-foot';
+    const arrow = document.createElement('span');
+    arrow.className = 'card-arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+    const arrowIcon = document.createElement('span');
+    arrowIcon.className = 'icon icon-arrow-right';
+    arrow.appendChild(arrowIcon);
+    const version = document.createElement('span');
+    version.className = 'card-version';
+    version.hidden = true;
+    const langs = document.createElement('span');
+    langs.className = 'card-langs';
+    if (repo.language) {
+      const chip = document.createElement('span');
+      chip.className = 'lang-chip';
+      const iconKey = langIconMap[repo.language.toLowerCase()];
+      if (iconKey) {
+        const icon = document.createElement('span');
+        icon.className = `lang-icon icon-lang-${iconKey}`;
+        icon.setAttribute('aria-hidden', 'true');
+        chip.appendChild(icon);
+      }
+      chip.appendChild(document.createTextNode(repo.language));
+      langs.appendChild(chip);
+    }
+    foot.append(arrow, version, langs);
+    copyWrap.append(mark, cat, h3, p, foot);
+    card.append(art, copyWrap);
+    return card;
+  }
+  async function discoverNewRepos() {
+    if (typeof fetch !== 'function' || !projectGrid) return;
+    const known = new Set(['erikpuw', 'erikpuw.github.io', ...projectCards.map(c => {
+      try { return new URL(c.href).pathname.split('/').pop().toLowerCase(); } catch { return ''; }
+    })]);
+    const controller = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = controller ? setTimeout(() => controller.abort(), 8000) : null;
+    try {
+      const res = await fetch('https://api.github.com/users/erikpuw/repos?sort=updated&per_page=30', {
+        headers: { Accept: 'application/vnd.github+json' },
+        signal: controller?.signal,
+      });
+      if (!res.ok) return;
+      const repos = await res.json();
+      if (!Array.isArray(repos)) return;
+      let added = false;
+      for (const repo of repos) {
+        if (!repo || repo.fork || repo.archived || repo.disabled || typeof repo.name !== 'string') continue;
+        if (known.has(repo.name.toLowerCase())) continue;
+        if (typeof repo.html_url !== 'string' || !repo.html_url.startsWith('https://github.com/erikpuw/')) continue;
+        known.add(repo.name.toLowerCase());
+        const card = createAutoProjectCard(repo);
+        projectGrid.appendChild(card);
+        projectCards.push(card);
+        bindCardInteractions(card);
+        loadCardVersion(card);
+        added = true;
+      }
+      if (added) applyFilter(activeFilter);
+    } catch { /* Keep curated projects unaffected when GitHub API is unreachable. */ } finally {
+      if (timer) clearTimeout(timer);
+    }
+  }
+  discoverNewRepos();
   closeButton.addEventListener('click', closeProject);
   dialog.addEventListener('cancel', event => {
     event.preventDefault();

@@ -14,7 +14,7 @@
   <link rel="canonical" href="https://erikpuw.github.io/">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="assets/hero-light.webp" as="image" fetchpriority="high">
-  <link rel="stylesheet" href="styles.css?v=langs1">
+  <link rel="stylesheet" href="styles.css?v=auto1">
   <title>erikpuw | Phần mềm cho Windows</title>
   <script>
     try {
@@ -28,7 +28,7 @@
     } catch { /* System defaults still work when storage is unavailable. */ }
   </script>
   <script src="releases.js" defer></script>
-  <script src="app.js?v=langs1" defer></script>
+  <script src="app.js?v=auto1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#projects">Đến các dự án</a>
@@ -88,7 +88,7 @@
             <div class="project-art art-puwbar" aria-hidden="true"><img class="artwork artwork-light" src="assets/card-puwbar-light.webp" alt="" width="930" height="423" loading="lazy" decoding="async"><img class="artwork artwork-dark" src="assets/card-puwbar-dark.webp" alt="" width="930" height="423" loading="lazy" decoding="async"></div>
             <div class="project-copy"><svg class="project-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="13.5" width="19" height="6.5" rx="3.25"/><rect x="6" y="15.5" width="2.5" height="2.5" rx=".75" fill="currentColor" stroke="none"/><rect x="10.75" y="15.5" width="2.5" height="2.5" rx=".75" fill="currentColor" stroke="none"/><rect x="15.5" y="15.5" width="2.5" height="2.5" rx=".75" fill="currentColor" stroke="none"/></svg><span class="project-category">Thanh taskbar</span><h3 id="puwbar-title">PuwBar</h3><p id="puwbar-description">Taskbar kính mờ nổi cho Windows 11, giữ nguyên mọi tính năng gốc.</p><span class="card-foot"><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span><span class="card-version" hidden></span><span class="card-langs"><span class="lang-chip"><span class="lang-icon icon-lang-rust" aria-hidden="true"></span>Rust</span><span class="lang-chip"><span class="lang-icon icon-lang-cpp" aria-hidden="true"></span>C++</span></span></span></div>
           </a>
-          <a class="project-card project-puwvga" data-project="puwvga" data-group="tools" data-langs="rust" data-unreleased-message="Đang chuẩn bị phát hành. Bản tải sẽ xuất hiện khi có trên GitHub Releases." href="https://github.com/erikpuw/puwvga" target="_blank" rel="noopener noreferrer" aria-labelledby="puwvga-title" aria-describedby="puwvga-description">
+          <a class="project-card project-puwvga" data-project="puwvga" data-group="tools" data-langs="rust" href="https://github.com/erikpuw/puwvga" target="_blank" rel="noopener noreferrer" aria-labelledby="puwvga-title" aria-describedby="puwvga-description">
             <div class="project-art art-puwvga" aria-hidden="true"><img class="artwork artwork-light" src="assets/card-puwvga-light.webp" alt="" width="1200" height="546" loading="lazy" decoding="async"><img class="artwork artwork-dark" src="assets/card-puwvga-dark.webp" alt="" width="1200" height="546" loading="lazy" decoding="async"></div>
             <div class="project-copy"><svg class="project-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="15.5" cy="12" r="3"/><path d="M6 10h4M6 14h4"/></svg><span class="project-category">Đồ họa / GPU</span><h3 id="puwvga-title">PuwVGA</h3><p id="puwvga-description">Điều khiển toàn bộ VGA của 3 hãng lớn NVIDIA, AMD và Intel tại một nơi.</p><span class="card-foot"><span class="card-arrow" aria-hidden="true"><span class="icon icon-arrow-right"></span></span><span class="card-version" hidden></span><span class="card-langs"><span class="lang-chip"><span class="lang-icon icon-lang-rust" aria-hidden="true"></span>Rust</span></span></span></div>
           </a>
@@ -125,7 +125,7 @@
   <template id="puwdesk-details">
     <p>Hình nền động tương tác cho Windows, viết bằng Rust. Cảnh Vườn nổi trên mây mang cây, hoa, mây và những chuyển động nhẹ lên desktop.</p>
     <ul class="feature-list"><li>Cảnh phản ứng theo chuột, thay đổi sáng và tối theo giờ địa phương.</li><li>Tự tạm dừng khi màn hình bị che bởi cửa sổ phóng to, fullscreen, khóa máy hoặc tắt màn hình.</li><li>Cài đặt Việt–Anh, tùy chọn giảm chuyển động và chạy cùng Windows.</li></ul>
-    <p class="detail-note">Nút tải tự kiểm tra bản phát hành ổn định mới nhất trên GitHub Releases. Khi chưa có bản phát hành, nút sẽ giữ trạng thái chưa sẵn sàng.</p>
+    <p class="detail-note" data-unreleased-note="true">Dự án đang được chuẩn bị để phát hành trên GitHub. Nút tải sẽ tự động bật khi có bản ổn định trên GitHub Releases.</p>
   </template>
   <template id="puwbar-details">
     <p>Tách thanh taskbar Windows 11 thành các cụm kính mờ bo góc cho ứng dụng, System Tray và Widgets — viết bằng Rust + C++/WinRT trong một tệp puwbar.exe duy nhất.</p>
@@ -133,8 +133,9 @@
     <p class="detail-note">Dành cho Windows 11 (x64), không cần Windhawk hay Visual C++ Redistributable. Nên tắt mod chỉnh taskbar trên Windhawk (nếu có) trước khi chạy.</p>
   </template>
   <template id="puwvga-details">
-    <p>Trung tâm điều khiển VGA hợp nhất trên Windows cho cả 3 hãng đồ họa lớn: NVIDIA, AMD và Intel.</p>
-    <p class="detail-note">Dự án đang được chuẩn bị để phát hành trên GitHub. Thông tin chi tiết và bản tải ổn định sẽ tự động cập nhật khi có trên GitHub Releases.</p>
+    <p>Ứng dụng điều khiển cấu hình VGA tập trung cho Windows 10 và Windows 11, hỗ trợ đồng thời Intel, NVIDIA và AMD trong một tệp thực thi viết bằng Rust.</p>
+    <ul class="feature-list"><li>Nhận diện toàn bộ GPU (máy bàn 1 VGA hoặc laptop iGPU + dGPU) và ánh xạ từng màn hình tới đúng GPU chủ quản.</li><li>Chỉnh màu sắc, độ sáng, Gamma, Digital Vibrance / Saturation, Hue, Color Depth và chuyển chế độ MUX / Optimus, VRR / G-SYNC / FreeSync.</li><li>Cấu hình 3D và Video theo từng hãng trực tiếp qua driver gốc (ControlLib, nvapi64, atiadlxx), không WebView, không chạy nền sau khi đóng.</li></ul>
+    <p class="detail-note">Có sẵn bản cài đặt (setup) và bản chạy ngay (portable) cho Windows x64 trong mục GitHub Releases.</p>
   </template>
 </body>
 </html>
