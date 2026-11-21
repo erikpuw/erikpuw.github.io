@@ -531,6 +531,11 @@
     document.querySelector('#dialog-title').textContent = card.querySelector('h3').textContent;
     document.querySelector('#dialog-description').textContent = card.querySelector('p').textContent;
     document.querySelector('#dialog-category').textContent = card.querySelector('.project-category').textContent;
+    const dialogLangs = document.querySelector('#dialog-langs');
+    const cardLangs = card.querySelector('.card-langs');
+    if (dialogLangs && cardLangs && typeof cardLangs.cloneNode === 'function') {
+      dialogLangs.replaceChildren(...Array.from(cardLangs.children || []).map(node => node.cloneNode(true)));
+    }
     document.querySelector('#dialog-repository').href = card.href;
     const art = getProjectArtwork(card, 'high');
     document.querySelector('#dialog-art').replaceChildren(art);
