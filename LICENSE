@@ -1,0 +1,21 @@
+Copyright (c) 2026 erikpuw. All Rights Reserved.
+
+This repository, including its source code (HTML, CSS, JavaScript), layout,
+design system, written copy, and custom visual assets (including studio renders
+and illustrations in `assets/`), is the exclusive property of erikpuw
+(https://erikpuw.github.io/).
+
+No part of this website or its assets may be copied, cloned, modified,
+redistributed, sublicensed, republished, or used in whole or in part for
+personal or commercial purposes without prior written permission from the
+copyright holder.
+
+Viewing the public site and its source code in a browser or on GitHub does not
+grant any license or rights to reuse, fork for redistribution, or create
+derivative works from this repository.
+
+Third-Party Notices:
+- GitHub Octicons mark: licensed under the MIT License
+  (see `assets/OCTICONS-LICENSE.txt`).
+- Phosphor Icons: licensed under the MIT License
+  (see `assets/PHOSPHOR-LICENSE.txt`).

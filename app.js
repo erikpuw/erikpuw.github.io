@@ -39,6 +39,7 @@
       heroDescription: 'AI, tùy biến Windows, giải trí và công cụ hệ thống do erikpuw phát triển.',
       heroCta: 'Khám phá dự án',
       projectsTitle: 'Dự án của tôi',
+      footerCopy: '© 2026 erikpuw. Bảo lưu mọi quyền.',
       filterLabel: 'Phân loại dự án',
       filters: {
         all: 'Tất cả',
@@ -102,6 +103,7 @@
       heroDescription: 'AI, Windows customization, entertainment, and system tools crafted by erikpuw.',
       heroCta: 'Explore projects',
       projectsTitle: 'My projects',
+      footerCopy: '© 2026 erikpuw. All rights reserved.',
       filterLabel: 'Filter projects by category',
       filters: {
         all: 'All',
@@ -272,6 +274,7 @@
     setText('.hero-description', t.heroDescription);
     setText('#hero-cta-label', t.heroCta);
     setText('#projects-title', t.projectsTitle);
+    setText('#footer-copy', t.footerCopy);
     setAttr('#project-filters', 'aria-label', t.filterLabel);
     for (const key of filterIds) setText(`#filter-${key}`, t.filters[key]);
     setAttr('#dialog-close', 'aria-label', t.dialogClose);
