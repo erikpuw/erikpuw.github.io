@@ -81,6 +81,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outlin
 .eyebrow { margin: 0 0 1.2rem; font-size: .75rem; font-weight: 650; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
 h1 { margin: 0; font-size: clamp(2rem, 3.8vw, 3.1rem); line-height: 1.15; font-weight: 700; letter-spacing: -.05em; }
 .hero-description { max-width: 34rem; margin: 1.25rem 0 1.8rem; color: var(--muted); font-size: .97rem; text-wrap: pretty; }
+.hero-origin { display: block; margin-top: .25rem; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: .7rem; min-height: 46px; padding: .7rem 1.25rem; border-radius: 999px; font-size: .9rem; font-weight: 600; white-space: nowrap; }
 .button-primary { background: var(--accent); color: #f9fbff; box-shadow: inset 0 1px 0 rgb(255 255 255 / 14%), 0 3px 8px var(--shadow); }
 .button-primary:hover { background: var(--accent-hover); }

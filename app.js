@@ -38,6 +38,7 @@
       eyebrow: 'Phần mềm cho Windows',
       heroTitle: 'Một góc làm việc tốt hơn.',
       heroDescription: 'AI, tùy biến Windows, giải trí và công cụ hệ thống do erikpuw phát triển.',
+      heroOrigin: 'Do người Việt Nam phát triển.',
       heroCta: 'Khám phá dự án',
       projectsTitle: 'Dự án của tôi',
       footerCopy: '© 2026 erikpuw. Bảo lưu mọi quyền.',
@@ -103,6 +104,7 @@
       eyebrow: 'Windows Software',
       heroTitle: 'A better workspace.',
       heroDescription: 'AI, Windows customization, entertainment, and system tools crafted by erikpuw.',
+      heroOrigin: 'Built by a Vietnamese developer.',
       heroCta: 'Explore projects',
       projectsTitle: 'My projects',
       footerCopy: '© 2026 erikpuw. All rights reserved.',
@@ -305,7 +307,8 @@
     }
     setText('.eyebrow', t.eyebrow);
     setText('#hero-title', t.heroTitle);
-    setText('.hero-description', t.heroDescription);
+    setText('#hero-desc-main', t.heroDescription);
+    setText('#hero-desc-origin', t.heroOrigin);
     setText('#hero-cta-label', t.heroCta);
     setText('#projects-title', t.projectsTitle);
     setText('#footer-copy', t.footerCopy);
